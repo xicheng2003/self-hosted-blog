@@ -8,6 +8,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { MediaCard } from "@/components/media-card"
 import { remarkMediaCard } from "@/lib/remark-media-card"
+import { ViewCounter } from "@/components/view-counter"
 
 interface PostPageProps {
   params: Promise<{
@@ -76,7 +77,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </span>
             )}
             
-            <span>{post.viewCount} 阅读</span>
+            <ViewCounter slug={post.slug} initialViews={post.viewCount} />
           </div>
         </header>
 
