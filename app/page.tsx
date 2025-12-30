@@ -1,65 +1,178 @@
-import Image from "next/image";
+import { prisma } from "@/lib/prisma"
+import Link from "next/link"
+import { ArrowRight, Github, Twitter, Mail, MapPin, Activity } from 'lucide-react'
+import { format } from "date-fns"
 
-export default function Home() {
+export const revalidate = 60
+
+export default async function Home() {
+  // Fetch latest 3 posts for "Selected Writing"
+  const posts = await prisma.post.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
+    take: 3,
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      excerpt: true,
+      createdAt: true,
+    }
+  })
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200 animate-in fade-in duration-700">
+      
+      {/* ---------------- Navigation ---------------- */}
+      <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center">
+        <div className="flex flex-col">
+          <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
+        </div>
+        
+        <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
+          <Link href="/" className="hover:text-black transition-colors border-b border-black text-black">首页</Link>
+          <Link href="/posts" className="hover:text-black transition-colors">博客</Link>
+          <Link href="/admin" className="hover:text-black transition-colors">管理</Link>
+        </div>
+      </nav>
+
+      {/* ---------------- Main Content ---------------- */}
+      <main className="max-w-3xl mx-auto px-6 pb-20">
+        
+        {/* 1. Hero Section */}
+        <section className="mt-12 mb-20">
+          <div className="w-12 h-[1px] bg-gray-300 mb-8"></div> {/* Decorative line */}
+          
+          <h2 className="font-serif text-5xl md:text-6xl leading-tight mb-8 font-medium text-gray-900">
+            构建代码，<br />
+            也记录<span className="italic font-serif text-gray-400 mr-2">生活</span>的微光。
+          </h2>
+          
+          <p className="font-serif text-lg text-gray-600 leading-relaxed max-w-xl">
+            Hi，我是 <span className="text-black font-semibold border-b border-gray-300 pb-0.5">晨曦</span>。
+            <br className="mb-4"/>
+            一名机械电子工程专业的学生，开发者，偶尔也是马拉松跑者。
+            这里没有宏大的叙事，只有一名开发者的成长足迹与思考。
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+          {/* Social Links */}
+          <div className="flex gap-6 mt-8">
+            <SocialLink href="https://github.com" icon={<Github size={18} />} label="Github" />
+            <SocialLink href="https://twitter.com" icon={<Twitter size={18} />} label="Twitter" />
+            <SocialLink href="mailto:example@example.com" icon={<Mail size={18} />} label="Email" />
+          </div>
+        </section>
+
+        {/* 2. Current Focus */}
+        <section className="mb-24">
+          <SectionTitle title="当前活动" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+            {/* Card 1: Location */}
+            <div className="p-6 bg-white border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md transition-shadow duration-300 rounded-sm">
+              <div className="flex items-center gap-2 mb-4 text-gray-400">
+                <MapPin size={16} />
+                <span className="text-xs uppercase tracking-widest font-sans">坐标</span>
+              </div>
+              <p className="font-serif text-xl text-gray-800">
+                中国 · 揭阳
+              </p>
+              <p className="text-sm text-gray-500 mt-2 font-sans">
+                筹备新学期
+              </p>
+            </div>
+
+            {/* Card 2: Activity */}
+            <a 
+              href="https://run.morlight.top"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-6 bg-white border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md transition-shadow duration-300 rounded-sm block"
+            >
+              <div className="flex items-center gap-2 mb-4 text-gray-400">
+                <Activity size={16} />
+                <span className="text-xs uppercase tracking-widest font-sans">近期动态</span>
+              </div>
+              <p className="font-serif text-xl text-gray-800">
+                梅州马拉松
+              </p>
+              <p className="text-sm text-gray-500 mt-2 font-sans flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                已完赛-半程马拉松（2'03"35）
+              </p>
+            </a>
+          </div>
+        </section>
+
+        {/* 3. Selected Writing */}
+        <section className="mb-20">
+          <SectionTitle title="精选文章" />
+          
+          <div className="space-y-8 mt-6">
+            {posts.length > 0 ? (
+              posts.map(post => (
+                <Link key={post.id} href={`/posts/${post.slug}`} className="block group">
+                  <div className="flex items-baseline justify-between mb-1">
+                    <h4 className="font-serif text-xl text-gray-800 group-hover:text-black transition-colors">
+                      {post.title}
+                    </h4>
+                    <span className="font-sans text-xs text-gray-400 shrink-0 ml-4 tabular-nums">
+                      {format(post.createdAt, "yyyy-MM-dd")}
+                    </span>
+                  </div>
+                  {post.excerpt && (
+                    <p className="font-serif text-gray-500 text-sm leading-relaxed line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                  )}
+                </Link>
+              ))
+            ) : (
+              <p className="text-gray-400 italic font-serif">暂无文章</p>
+            )}
+          </div>
+
+          <div className="mt-10">
+            <Link href="/posts" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black transition-colors group font-sans">
+              查看所有文章
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </section>
+
       </main>
+
+      {/* Footer */}
+      <footer className="max-w-3xl mx-auto px-6 py-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 font-sans tracking-wider">
+        <p>&copy; {new Date().getFullYear()} AuraDawn. All rights reserved.</p>
+        <p className="mt-2 md:mt-0">至繁归于至简。</p>
+      </footer>
+
     </div>
-  );
+  )
+}
+
+// --- Sub Components ---
+
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <div className="flex items-center gap-4">
+      <h3 className="font-sans text-xs font-bold uppercase tracking-widest text-gray-400">{title}</h3>
+      <div className="h-[1px] flex-1 bg-gray-200"></div>
+    </div>
+  )
+}
+
+function SocialLink({ icon, label, href }: { icon: React.ReactNode, label: string, href: string }) {
+  return (
+    <a 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="text-gray-400 hover:text-black transition-colors" 
+      aria-label={label}
+    >
+      {icon}
+    </a>
+  )
 }
