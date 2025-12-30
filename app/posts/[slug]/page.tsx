@@ -108,7 +108,7 @@ export default async function PostPage({ params }: PostPageProps) {
                             if (!props.src) return null;
                             return (
                                 <Image
-                                    src={props.src}
+                                    src={props.src as string}
                                     alt={props.alt || ''}
                                     width={800}
                                     height={450}
