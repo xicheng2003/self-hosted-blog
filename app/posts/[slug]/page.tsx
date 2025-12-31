@@ -114,13 +114,20 @@ export default async function PostPage({ params }: PostPageProps) {
                         img: ({node, ...props}) => {
                             if (!props.src) return null;
                             return (
-                                <Image
-                                    src={props.src as string}
-                                    alt={props.alt || ''}
-                                    width={800}
-                                    height={450}
-                                    className="rounded-sm my-8 w-full h-auto"
-                                />
+                                <figure className="my-8">
+                                    <Image
+                                        src={props.src as string}
+                                        alt={props.alt || ''}
+                                        width={800}
+                                        height={450}
+                                        className="rounded-sm w-full h-auto"
+                                    />
+                                    {props.title && (
+                                        <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
+                                            {props.title}
+                                        </figcaption>
+                                    )}
+                                </figure>
                             )
                         },
                         blockquote: ({node, children, ...props}) => {

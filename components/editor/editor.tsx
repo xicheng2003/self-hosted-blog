@@ -3,11 +3,11 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import Image from '@tiptap/extension-image'
 import { Markdown } from 'tiptap-markdown'
 import { useEffect } from 'react'
 import { SlashCommand, suggestion } from './slash-command'
 import { toast } from "sonner"
+import { CustomImage } from '@/lib/custom-image-extension'
 
 interface EditorProps {
   value: string
@@ -51,7 +51,7 @@ export function Editor({ value, onChange }: EditorProps) {
         placeholder: 'Start writing...',
         emptyEditorClass: 'is-editor-empty',
       }),
-      Image,
+      CustomImage,
       Markdown.configure({
         html: false,
         transformPastedText: true,
@@ -72,7 +72,11 @@ export function Editor({ value, onChange }: EditorProps) {
           const file = item.getAsFile()
           if (file) {
             uploadImage(file).then((url) => {
-              const image = view.state.schema.nodes.image.create({ src: url })
+              const caption = prompt('图片描述（可选）：')
+              const image = view.state.schema.nodes.image.create({ 
+                src: url,
+                caption: caption || null
+              })
               const transaction = view.state.tr.replaceSelectionWith(image)
               view.dispatch(transaction)
             })
@@ -87,10 +91,14 @@ export function Editor({ value, onChange }: EditorProps) {
           if (file.type.indexOf('image') === 0) {
             event.preventDefault()
             uploadImage(file).then((url) => {
+              const caption = prompt('图片描述（可选）：')
               const { schema } = view.state
               const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
               if (coordinates) {
-                const node = schema.nodes.image.create({ src: url })
+                const node = schema.nodes.image.create({ 
+                  src: url,
+                  caption: caption || null
+                })
                 const transaction = view.state.tr.insert(coordinates.pos, node)
                 view.dispatch(transaction)
               }
