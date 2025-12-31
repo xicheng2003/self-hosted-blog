@@ -52,80 +52,71 @@ export function TableOfContents({ className }: TableOfContentsProps) {
   return (
     <nav
       className={cn(
-        "fixed right-8 top-1/2 -translate-y-1/2 hidden xl:block transition-all duration-300 ease-in-out",
+        "fixed top-32 left-[calc(50%+24rem)] hidden xl:block z-50",
         className
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative">
-        {/* Title */}
-        <h4 className={cn(
-            "font-serif text-lg mb-4 transition-opacity duration-300",
-            isHovered ? "opacity-100" : "opacity-0"
-        )}>
-          Table of Content
-        </h4>
+      {/* Title */}
+      <h4 className={cn(
+          "font-serif text-lg mb-4 transition-opacity duration-300 text-gray-900",
+          isHovered ? "opacity-100" : "opacity-0"
+      )}>
+        Table of Content
+      </h4>
 
-        <ul className="space-y-3 relative">
-          {headings.map((heading) => {
-            const isActive = heading.id === activeId
-            // Logic: Show if hovered OR if it's the active item
-            // But user asked: "not hover state shows current H1 and H2"
-            // Actually, usually "current" means the active one. 
-            // Let's interpret "current" as the active one.
-            // If not hovered, we hide non-active items to mimic the "collapsed" look, 
-            // or maybe we just dim them?
-            // Looking at the reference image 1 (collapsed): It shows 4 items, but they look like dashes. One has an icon and text.
-            // Reference image 2 (expanded): Shows title "Table of Content" and items with icons/text.
-            
-            // Let's try to replicate the visual style:
-            // Collapsed: Just dashes for inactive, Icon+Text for active.
-            // Expanded: Text for all.
-            
-            return (
-              <li
-                key={heading.id}
+      <ul className="flex flex-col gap-3 relative">
+        {headings.map((heading) => {
+          const isActive = heading.id === activeId
+          
+          return (
+            <li
+              key={heading.id}
+              className={cn(
+                "transition-all duration-300",
+                heading.level === 2 ? "ml-4" : ""
+              )}
+            >
+              <a
+                href={`#${heading.id}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById(heading.id)?.scrollIntoView({ behavior: "smooth" })
+                  setActiveId(heading.id)
+                }}
                 className={cn(
-                  "transition-all duration-300 flex items-center gap-3 cursor-pointer",
-                  heading.level === 2 ? "ml-4" : ""
+                    "flex items-center gap-3 group py-1 transition-opacity duration-300",
+                    // Visibility Logic:
+                    // Idle: Only active is visible. Others are invisible but take up space (opacity-0).
+                    // Hover: All visible.
+                    isHovered || isActive ? "opacity-100" : "opacity-0 pointer-events-none"
                 )}
               >
-                <a
-                  href={`#${heading.id}`}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    document.getElementById(heading.id)?.scrollIntoView({ behavior: "smooth" })
-                    setActiveId(heading.id)
-                  }}
-                  className="flex items-center gap-3 group"
+                {/* Indicator */}
+                <span 
+                    className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    isActive 
+                        ? "w-6 bg-gray-900" // Active: Longer & Darker
+                        : "w-3 bg-gray-300 group-hover:bg-gray-400" // Inactive: Short & Light
+                    )}
+                />
+                
+                {/* Text */}
+                <span
+                  className={cn(
+                    "text-sm font-serif transition-colors duration-300 whitespace-nowrap",
+                    isActive ? "text-black font-medium" : "text-gray-500 group-hover:text-gray-700"
+                  )}
                 >
-                  {/* The Dash / Indicator */}
-                  <span 
-                    className={cn(
-                      "h-1.5 rounded-full transition-all duration-300",
-                      isActive 
-                        ? "w-8 bg-gray-400" // Active dash style
-                        : "w-4 bg-gray-700/30 group-hover:bg-gray-400" // Inactive dash style
-                    )}
-                  />
-                  
-                  {/* The Text - Visible if hovered OR if active */}
-                  <span
-                    className={cn(
-                      "text-sm font-serif transition-all duration-300 whitespace-nowrap",
-                      isActive ? "text-black font-medium opacity-100 translate-x-0" : "text-gray-500",
-                      !isHovered && !isActive ? "opacity-0 -translate-x-4 pointer-events-none absolute left-6" : "opacity-100 translate-x-0"
-                    )}
-                  >
-                    {heading.text}
-                  </span>
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+                  {heading.text}
+                </span>
+              </a>
+            </li>
+          )
+        })}
+      </ul>
     </nav>
   )
 }
