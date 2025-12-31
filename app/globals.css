@@ -18,22 +18,9 @@
     font-style: normal !important;
   }
 
-  /* Lead Paragraph Style - First blockquote in post content */
-  .post-content > .post-blockquote:first-of-type {
-    @apply border-l-0 pl-0 text-center text-xl text-neutral-700 my-12 leading-relaxed relative;
-    font-family: var(--font-serif);
-    font-style: normal !important;
-  }
-  
   /* Ensure inner paragraphs are also not italic */
   .post-blockquote p {
     font-style: normal !important;
-  }
-  
-  /* Add a subtle separator below the lead */
-  .post-content > .post-blockquote:first-of-type::after {
-    content: "";
-    @apply block w-16 h-px bg-neutral-300 mx-auto mt-8;
   }
 }
 
