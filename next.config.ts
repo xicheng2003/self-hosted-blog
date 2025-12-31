@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    turbopack: false, // 禁用 Turbopack，节省内存用于构建
+  },
   images: {
     remotePatterns: [
       {
