@@ -10,6 +10,7 @@ import { MediaCard } from "@/components/media-card"
 import { remarkMediaCard } from "@/lib/remark-media-card"
 import { ViewCounter } from "@/components/view-counter"
 import { auth } from "@/auth"
+import { TableOfContents } from "@/components/table-of-contents"
 
 interface PostPageProps {
   params: Promise<{
@@ -62,7 +63,8 @@ export default async function PostPage({ params }: PostPageProps) {
       </nav>
 
       {/* ---------------- Main Content ---------------- */}
-      <main className="max-w-3xl mx-auto px-6 pb-20">
+      <main className="max-w-3xl mx-auto px-6 pb-20 relative">
+        <TableOfContents />
         
         {/* Article Header */}
         <header className="mt-8 mb-12">
