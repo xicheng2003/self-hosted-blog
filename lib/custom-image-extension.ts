@@ -1,72 +1,32 @@
 import Image from '@tiptap/extension-image'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import { ImageNodeView } from '@/components/editor/image-node-view'
 
 export const CustomImage = Image.extend({
+  // Ensure we support all standard image attributes from Tiptap
   addAttributes() {
     return {
       ...this.parent?.(),
-      caption: {
+      // title is used as caption in markdown: ![alt](url "title")
+      title: {
         default: null,
         parseHTML: element => element.getAttribute('title'),
         renderHTML: attributes => {
-          if (!attributes.caption) {
+          if (!attributes.title) {
             return {}
           }
           return {
-            title: attributes.caption,
+            title: attributes.title,
           }
         },
       },
     }
   },
-
+  
   addNodeView() {
-    return ({ node, editor }) => {
-      const container = document.createElement('div')
-      container.className = 'image-wrapper'
-      container.style.cssText = 'position: relative; display: inline-block; margin: 1rem 0;'
-
-      const img = document.createElement('img')
-      img.src = node.attrs.src
-      img.alt = node.attrs.alt || ''
-      img.title = node.attrs.caption || ''
-      img.style.cssText = 'max-width: 100%; height: auto; border-radius: 4px; cursor: pointer;'
-      
-      img.addEventListener('click', () => {
-        if (!editor.isEditable) return
-        const newCaption = prompt('图片描述（可选）：', node.attrs.caption || '')
-        if (newCaption !== null) {
-          editor.commands.updateAttributes('image', { caption: newCaption || null })
-        }
-      })
-
-      const caption = document.createElement('div')
-      caption.className = 'image-caption'
-      caption.textContent = node.attrs.caption || ''
-      caption.style.cssText = 'text-align: center; font-size: 0.875rem; color: #666; margin-top: 0.5rem; font-style: italic;'
-      
-      container.appendChild(img)
-      if (node.attrs.caption) {
-        container.appendChild(caption)
-      }
-
-      return {
-        dom: container,
-        update: (updatedNode) => {
-          if (updatedNode.type !== this.type) return false
-          img.src = updatedNode.attrs.src
-          img.alt = updatedNode.attrs.alt || ''
-          img.title = updatedNode.attrs.caption || ''
-          caption.textContent = updatedNode.attrs.caption || ''
-          
-          if (updatedNode.attrs.caption && !container.contains(caption)) {
-            container.appendChild(caption)
-          } else if (!updatedNode.attrs.caption && container.contains(caption)) {
-            container.removeChild(caption)
-          }
-          return true
-        }
-      }
-    }
+    return ReactNodeViewRenderer(ImageNodeView)
   },
 })
+
+
 

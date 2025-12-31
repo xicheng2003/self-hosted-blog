@@ -72,10 +72,8 @@ export function Editor({ value, onChange }: EditorProps) {
           const file = item.getAsFile()
           if (file) {
             uploadImage(file).then((url) => {
-              const caption = prompt('图片描述（可选）：')
               const image = view.state.schema.nodes.image.create({ 
-                src: url,
-                caption: caption || null
+                src: url
               })
               const transaction = view.state.tr.replaceSelectionWith(image)
               view.dispatch(transaction)
@@ -91,13 +89,11 @@ export function Editor({ value, onChange }: EditorProps) {
           if (file.type.indexOf('image') === 0) {
             event.preventDefault()
             uploadImage(file).then((url) => {
-              const caption = prompt('图片描述（可选）：')
               const { schema } = view.state
               const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
               if (coordinates) {
                 const node = schema.nodes.image.create({ 
-                  src: url,
-                  caption: caption || null
+                  src: url
                 })
                 const transaction = view.state.tr.insert(coordinates.pos, node)
                 view.dispatch(transaction)
