@@ -9,6 +9,7 @@ import Image from "next/image"
 import { MediaCard } from "@/components/media-card"
 import { remarkMediaCard } from "@/lib/remark-media-card"
 import { ViewCounter } from "@/components/view-counter"
+import { auth } from "@/auth"
 
 interface PostPageProps {
   params: Promise<{
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PostPageProps) {
   const post = await prisma.post.findUnique({
     where: { slug },
   })
-  if (!post) return {}
+  if (!post || !post.published) return {}
   return {
     title: post.title,
     description: post.excerpt,
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
+  const session = await auth()
   const { slug } = await params
   const post = await prisma.post.findUnique({
     where: { slug },
@@ -36,6 +38,10 @@ export default async function PostPage({ params }: PostPageProps) {
   })
 
   if (!post) {
+    notFound()
+  }
+
+  if (!post.published && !session) {
     notFound()
   }
 
