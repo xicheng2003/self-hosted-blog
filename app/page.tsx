@@ -59,9 +59,9 @@ export default async function Home() {
 
           {/* Social Links */}
           <div className="flex gap-6 mt-8 animate-enter-up delay-700">
-            <SocialLink href="https://github.com" icon={<Github size={18} />} label="Github" />
+            <SocialLink href="https://github.com/xicheng2003" icon={<Github size={18} />} label="Github" />
             <SocialLink href="https://twitter.com" icon={<Twitter size={18} />} label="Twitter" />
-            <SocialLink href="mailto:example@example.com" icon={<Mail size={18} />} label="Email" />
+            <SocialLink href="mailto:me@morlight.top" icon={<Mail size={18} />} label="Email" />
           </div>
         </section>
 

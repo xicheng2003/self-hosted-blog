@@ -12,10 +12,26 @@ import { ViewCounter } from "@/components/view-counter"
 import { auth } from "@/auth"
 import { TableOfContents } from "@/components/table-of-contents"
 
+// Increase revalidation time for better cache hit rate
+export const revalidate = 3600 // 1 hour
+export const dynamicParams = true // Allow generating pages on demand (for new posts or drafts)
+
 interface PostPageProps {
   params: Promise<{
     slug: string
   }>
+}
+
+// Generate static params for all published posts at build time
+export async function generateStaticParams() {
+  const posts = await prisma.post.findMany({
+    where: { published: true },
+    select: { slug: true },
+  })
+ 
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
@@ -31,7 +47,6 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const session = await auth()
   const { slug } = await params
   const post = await prisma.post.findUnique({
     where: { slug },
@@ -42,8 +57,12 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound()
   }
 
-  if (!post.published && !session) {
-    notFound()
+  // Only check session if post is not published to avoid dynamic rendering on public posts
+  if (!post.published) {
+    const session = await auth()
+    if (!session) {
+      notFound()
+    }
   }
 
   return (
