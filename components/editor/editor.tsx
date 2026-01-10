@@ -115,7 +115,10 @@ export function Editor({ value, onChange }: EditorProps) {
   // Sync content when value changes externally (e.g. initial load)
   useEffect(() => {
     if (editor && value !== (editor.storage as any).markdown.getMarkdown()) {
-      editor.commands.setContent(value)
+      // Defer update to avoid "flushSync was called from inside a lifecycle method" error
+      setTimeout(() => {
+        editor.commands.setContent(value)
+      }, 0)
     }
   }, [value, editor])
 

@@ -21,7 +21,7 @@ const notoSerifSC = Noto_Serif_SC({
 });
 
 export const metadata: Metadata = {
-  title: "My Blog",
+  title: "晨曦的博客",
   description: "A self-hosted blog",
 };
 
