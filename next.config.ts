@@ -11,9 +11,9 @@ const nextConfig: NextConfig = {
         pathname: '/blog-images/**',
       },
       {
-        protocol: 'http',
+        protocol: 'https',
         hostname: 'oss.auradawn.cn',
-        pathname: '/blog-images/**',
+        pathname: '/**',
       },
     ],
   },

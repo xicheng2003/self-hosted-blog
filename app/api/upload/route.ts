@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
     )
 
     // Construct Public URL
-    // Note: If using MinIO locally/VPS without domain, it might be http://IP:9000/bucket/key
-    const publicUrl = `${process.env.S3_PUBLIC_DOMAIN}/${process.env.S3_BUCKET_NAME}/${key}`
+    // For Cloudflare R2 with custom domain, the domain maps directly to the bucket.
+    const publicUrl = `${process.env.S3_PUBLIC_DOMAIN}/${key}`
 
     // Save to Database
     const asset = await prisma.asset.create({
@@ -44,9 +44,9 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       url: publicUrl,
-      id: asset.id 
+      id: asset.id
     })
 
   } catch (error) {

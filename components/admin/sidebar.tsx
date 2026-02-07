@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { 
-  LayoutDashboard, 
-  FileText, 
-  FolderOpen, 
-  Settings, 
+import {
+  LayoutDashboard,
+  FileText,
+  FolderOpen,
+  Settings,
   MessageSquare,
   Plus
 } from "lucide-react"
@@ -62,9 +62,9 @@ export function Sidebar({ className }: SidebarProps) {
       href: "/admin/comments",
     },
     {
-      label: "Files",
+      label: "Assets",
       icon: FolderOpen,
-      href: "/admin/files",
+      href: "/admin/assets",
     },
     {
       label: "Settings",
@@ -92,8 +92,8 @@ export function Sidebar({ className }: SidebarProps) {
                   variant={pathname === route.href ? "secondary" : "ghost"}
                   className={cn(
                     "w-full justify-start font-normal h-9",
-                    pathname === route.href 
-                      ? "bg-neutral-100 text-neutral-900" 
+                    pathname === route.href
+                      ? "bg-neutral-100 text-neutral-900"
                       : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
                   )}
                 >
@@ -104,7 +104,7 @@ export function Sidebar({ className }: SidebarProps) {
             ))}
           </div>
         </div>
-        
+
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-xs font-semibold tracking-tight text-neutral-500">
             Recent Posts

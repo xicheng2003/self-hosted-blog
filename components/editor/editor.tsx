@@ -8,6 +8,10 @@ import { useEffect } from 'react'
 import { SlashCommand, suggestion } from './slash-command'
 import { toast } from "sonner"
 import { CustomImage } from '@/lib/custom-image-extension'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Type, Code } from 'lucide-react'
 
 interface EditorProps {
   value: string
@@ -15,6 +19,8 @@ interface EditorProps {
 }
 
 export function Editor({ value, onChange }: EditorProps) {
+  const [isPlainText, setIsPlainText] = useState(false)
+
   const uploadImage = async (file: File) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -72,7 +78,7 @@ export function Editor({ value, onChange }: EditorProps) {
           const file = item.getAsFile()
           if (file) {
             uploadImage(file).then((url) => {
-              const image = view.state.schema.nodes.image.create({ 
+              const image = view.state.schema.nodes.image.create({
                 src: url
               })
               const transaction = view.state.tr.replaceSelectionWith(image)
@@ -92,7 +98,7 @@ export function Editor({ value, onChange }: EditorProps) {
               const { schema } = view.state
               const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
               if (coordinates) {
-                const node = schema.nodes.image.create({ 
+                const node = schema.nodes.image.create({
                   src: url
                 })
                 const transaction = view.state.tr.insert(coordinates.pos, node)
@@ -127,8 +133,40 @@ export function Editor({ value, onChange }: EditorProps) {
   }
 
   return (
-    <div className="w-full">
-      <EditorContent editor={editor} />
+    <div className="w-full space-y-4">
+      <div className="flex justify-end border-b pb-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsPlainText(!isPlainText)}
+          className="text-neutral-500 hover:text-black"
+        >
+          {isPlainText ? (
+            <>
+              <Type className="mr-2 h-4 w-4" />
+              Switch to Rich Text
+            </>
+          ) : (
+            <>
+              <Code className="mr-2 h-4 w-4" />
+              Switch to Plain Text
+            </>
+          )}
+        </Button>
+      </div>
+
+      <div className={isPlainText ? "hidden" : "block"}>
+        <EditorContent editor={editor} />
+      </div>
+
+      {isPlainText && (
+        <Textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-h-[500px] font-mono text-base bg-white"
+          placeholder="# Write markdown here..."
+        />
+      )}
     </div>
   )
 }
