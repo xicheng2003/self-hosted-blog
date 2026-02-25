@@ -39,7 +39,7 @@ export async function GET() {
     const allContent = posts.map((p: { content: string | null; coverImage: string | null }) => p.content || '').join(' ')
 
     // Determine usage status
-    const assetsWithUsage = assets.map(asset => {
+    const assetsWithUsage = assets.map((asset: { id: string; url: string; key: string; filename: string; mimeType: string; size: number; createdAt: Date }) => {
       const isUsed =
         exactMatches.has(asset.url) ||
         allContent.includes(asset.url) ||
