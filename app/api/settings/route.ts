@@ -5,13 +5,13 @@ import { prisma } from '@/lib/prisma'
 export async function GET() {
   try {
     const configs = await prisma.siteConfig.findMany()
-    
+
     // Convert array to object
     const settings: Record<string, string> = {}
-    configs.forEach(config => {
+    configs.forEach((config: { key: string; value: string }) => {
       settings[config.key] = config.value
     })
-    
+
     return NextResponse.json({
       site_title: settings.site_title || '',
       site_description: settings.site_description || '',
