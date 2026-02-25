@@ -25,14 +25,13 @@ export default async function Home() {
 
       {/* ---------------- Navigation ---------------- */}
       <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center animate-enter-up">
-        <div className="flex flex-col">
+        <Link href="/" className="flex flex-col">
           <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
-        </div>
+        </Link>
 
         <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
           <Link href="/" className="hover:text-black transition-colors border-b border-black text-black">首页</Link>
-          <Link href="/posts" className="hover:text-black transition-colors hover:border-b hover:border-gray-300">博客</Link>
-          <Link href="/admin" className="hover:text-black transition-colors hover:border-b hover:border-gray-300">管理</Link>
+          <Link href="/posts" className="hover:text-black transition-colors hover:border-b hover:border-gray-300">文章</Link>
         </div>
       </nav>
 
