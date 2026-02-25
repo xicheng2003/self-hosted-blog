@@ -8,7 +8,9 @@ const globalForPrisma = globalThis as unknown as {
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
+  max: 5,                // Limit pool size to avoid exceeding Supabase connection limits during build
+  idleTimeoutMillis: 0,  // Close idle connections immediately
 })
 
 const adapter = new PrismaPg(pool)
