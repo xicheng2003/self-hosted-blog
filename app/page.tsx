@@ -7,7 +7,7 @@ export const revalidate = 60
 
 export default async function Home() {
   // Fetch latest 3 posts for "Selected Writing"
-  const posts = await prisma.post.findMany({
+  const posts: { id: string; title: string; slug: string; excerpt: string | null; createdAt: Date }[] = await prisma.post.findMany({
     where: { published: true },
     orderBy: { createdAt: 'desc' },
     take: 3,
@@ -22,13 +22,13 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200">
-      
+
       {/* ---------------- Navigation ---------------- */}
       <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center animate-enter-up">
         <div className="flex flex-col">
           <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
         </div>
-        
+
         <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
           <Link href="/" className="hover:text-black transition-colors border-b border-black text-black">首页</Link>
           <Link href="/posts" className="hover:text-black transition-colors hover:border-b hover:border-gray-300">博客</Link>
@@ -38,21 +38,21 @@ export default async function Home() {
 
       {/* ---------------- Main Content ---------------- */}
       <main className="max-w-3xl mx-auto px-6 pb-20">
-        
+
         {/* 1. Hero Section */}
         <section className="mt-12 mb-20">
           <div className="w-12 h-[1px] bg-gray-300 mb-8 animate-enter-up"></div> {/* Decorative line */}
-          
+
           <h2 className="font-serif text-5xl md:text-6xl leading-tight mb-8 font-medium text-gray-900">
             <span className="block animate-blur-in delay-100">构建代码，</span>
             <span className="block animate-blur-in delay-300">
               也记录<span className="italic font-serif text-gray-400 mr-2 hover:text-gray-600 transition-colors duration-300">生活</span>的微光。
             </span>
           </h2>
-          
+
           <p className="font-serif text-lg text-gray-600 leading-relaxed max-w-xl animate-enter-up delay-500">
             Hi，我是 <span className="text-black font-semibold border-b border-gray-300 pb-0.5">晨曦</span>。
-            <br className="mb-4"/>
+            <br className="mb-4" />
             一名机械电子工程专业的学生，开发者，偶尔也是马拉松跑者。
             <br />记录那些严谨逻辑之外的，具体而鲜活的瞬间。
           </p>
@@ -68,7 +68,7 @@ export default async function Home() {
         {/* 2. Current Focus */}
         <section className="mb-24 animate-enter-up delay-200">
           <SectionTitle title="当前活动" />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
             {/* Card 1: Location */}
             <div className="p-6 bg-white border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 rounded-sm">
@@ -85,7 +85,7 @@ export default async function Home() {
             </div>
 
             {/* Card 2: Activity */}
-            <a 
+            <a
               href="https://run.morlight.top"
               target="_blank"
               rel="noopener noreferrer"
@@ -109,7 +109,7 @@ export default async function Home() {
         {/* 3. Selected Writing */}
         <section className="mb-20 animate-enter-up delay-300">
           <SectionTitle title="精选文章" />
-          
+
           <div className="space-y-8 mt-6">
             {posts.length > 0 ? (
               posts.map(post => (
@@ -168,11 +168,11 @@ function SectionTitle({ title }: { title: string }) {
 
 function SocialLink({ icon, label, href }: { icon: React.ReactNode, label: string, href: string }) {
   return (
-    <a 
-      href={href} 
-      target="_blank" 
+    <a
+      href={href}
+      target="_blank"
       rel="noopener noreferrer"
-      className="text-gray-400 hover:text-black transition-colors" 
+      className="text-gray-400 hover:text-black transition-colors"
       aria-label={label}
     >
       {icon}

@@ -7,8 +7,8 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const limit = searchParams.get('limit')
-    
-    const posts = await prisma.post.findMany({
+
+    const posts: Record<string, unknown>[] = await prisma.post.findMany({
       orderBy: { createdAt: 'desc' },
       include: { author: true, category: true, tags: true },
       ...(limit && { take: parseInt(limit) }),
@@ -40,17 +40,17 @@ export async function POST(request: Request) {
     const authorId = session.user.id
 
     // Handle tags - create if not exists
-    const tagConnections = tags && tags.length > 0 
+    const tagConnections = tags && tags.length > 0
       ? await Promise.all(
-          tags.map(async (tagName: string) => {
-            const tag = await prisma.tag.upsert({
-              where: { name: tagName },
-              update: {},
-              create: { name: tagName, slug: tagName.toLowerCase().replace(/\s+/g, '-') },
-            })
-            return { id: tag.id }
+        tags.map(async (tagName: string) => {
+          const tag = await prisma.tag.upsert({
+            where: { name: tagName },
+            update: {},
+            create: { name: tagName, slug: tagName.toLowerCase().replace(/\s+/g, '-') },
           })
-        )
+          return { id: tag.id }
+        })
+      )
       : []
 
     const post = await prisma.post.upsert({

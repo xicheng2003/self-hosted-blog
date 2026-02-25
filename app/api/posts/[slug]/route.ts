@@ -9,15 +9,15 @@ export async function GET(
 ) {
   try {
     const { slug } = await params
-    const post = await prisma.post.findUnique({
+    const post: Record<string, unknown> | null = await prisma.post.findUnique({
       where: { slug },
       include: { author: true, category: true, tags: true },
     })
-    
+
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
-    
+
     return NextResponse.json(post)
   } catch (error) {
     console.error('Fetch post error:', error)
@@ -37,9 +37,9 @@ export async function DELETE(
     }
 
     const { slug } = await params
-    
+
     // Check if post exists first to avoid P2025
-    const existingPost = await prisma.post.findUnique({
+    const existingPost: Record<string, unknown> | null = await prisma.post.findUnique({
       where: { slug },
     })
 

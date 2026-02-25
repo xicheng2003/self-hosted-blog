@@ -8,18 +8,18 @@ export const dynamic = 'force-dynamic'
 // GET - Fetch all assets with usage status
 export async function GET() {
   try {
-    const assets = await prisma.asset.findMany({
+    const assets: { id: string; url: string; key: string; filename: string; mimeType: string; size: number; createdAt: Date }[] = await prisma.asset.findMany({
       orderBy: { createdAt: 'desc' },
     })
 
     // Fetch all content that might reference assets
-    const posts = await prisma.post.findMany({
+    const posts: { content: string | null; coverImage: string | null }[] = await prisma.post.findMany({
       select: { content: true, coverImage: true }
     })
-    const users = await prisma.user.findMany({
+    const users: { image: string | null }[] = await prisma.user.findMany({
       select: { image: true }
     })
-    const siteConfig = await prisma.siteConfig.findMany({
+    const siteConfig: { value: string }[] = await prisma.siteConfig.findMany({
       select: { value: true }
     })
 

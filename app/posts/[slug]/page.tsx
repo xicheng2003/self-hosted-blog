@@ -26,12 +26,12 @@ interface PostPageProps {
 
 // Generate static params for all published posts at build time
 export async function generateStaticParams() {
-  const posts = await prisma.post.findMany({
+  const posts: { slug: string }[] = await prisma.post.findMany({
     where: { published: true },
     select: { slug: true },
   })
 
-  return posts.map((post) => ({
+  return posts.map((post: { slug: string }) => ({
     slug: post.slug,
   }))
 }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params
 
   // Optimization: Select only necessary fields for metadata
-  const post = await prisma.post.findUnique({
+  const post: { title: string; excerpt: string | null; published: boolean } | null = await prisma.post.findUnique({
     where: { slug },
     select: {
       title: true,

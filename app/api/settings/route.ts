@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 // GET - Fetch all settings
 export async function GET() {
   try {
-    const configs = await prisma.siteConfig.findMany()
+    const configs: { id: string; key: string; value: string }[] = await prisma.siteConfig.findMany()
 
     // Convert array to object
     const settings: Record<string, string> = {}

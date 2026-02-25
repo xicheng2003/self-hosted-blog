@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 // GET - Fetch all categories
 export async function GET() {
   try {
-    const categories = await prisma.category.findMany({
+    const categories: Record<string, unknown>[] = await prisma.category.findMany({
       orderBy: { name: 'asc' },
     })
     return NextResponse.json(categories)

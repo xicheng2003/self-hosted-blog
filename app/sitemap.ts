@@ -2,12 +2,12 @@ import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await prisma.post.findMany({
+  const posts: { slug: string; updatedAt: Date }[] = await prisma.post.findMany({
     where: { published: true },
     select: { slug: true, updatedAt: true },
   })
 
-  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+  const postEntries: MetadataRoute.Sitemap = posts.map((post: { slug: string; updatedAt: Date }) => ({
     url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/posts/${post.slug}`,
     lastModified: post.updatedAt,
     changeFrequency: 'weekly',
