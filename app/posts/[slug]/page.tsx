@@ -127,7 +127,7 @@ export default async function PostPage({ params }: PostPageProps) {
         )}
 
         {/* Article Content */}
-        <article className="prose prose-neutral max-w-none prose-headings:font-serif prose-p:font-serif prose-p:text-gray-600 prose-headings:text-gray-900 prose-img:rounded-sm">
+        <article className="prose prose-neutral max-w-none prose-headings:font-serif prose-p:font-serif prose-p:text-gray-600 prose-li:font-serif prose-li:text-gray-600 prose-headings:text-gray-900 prose-img:rounded-sm">
           <div className="post-content">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMediaCard]}
