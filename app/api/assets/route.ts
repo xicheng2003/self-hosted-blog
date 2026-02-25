@@ -25,18 +25,18 @@ export async function GET() {
 
     // Create a set of explicitly used URLs (cover images, avatars, config)
     const exactMatches = new Set<string>()
-    posts.forEach(p => {
+    posts.forEach((p: { content: string | null; coverImage: string | null }) => {
       if (p.coverImage) exactMatches.add(p.coverImage)
     })
-    users.forEach(u => {
+    users.forEach((u: { image: string | null }) => {
       if (u.image) exactMatches.add(u.image)
     })
-    siteConfig.forEach(c => {
+    siteConfig.forEach((c: { value: string }) => {
       exactMatches.add(c.value)
     })
 
     // Concatenate all markdown content for searching
-    const allContent = posts.map(p => p.content || '').join(' ')
+    const allContent = posts.map((p: { content: string | null; coverImage: string | null }) => p.content || '').join(' ')
 
     // Determine usage status
     const assetsWithUsage = assets.map(asset => {
