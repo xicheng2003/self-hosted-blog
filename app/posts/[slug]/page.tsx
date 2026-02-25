@@ -4,6 +4,7 @@ import { format } from "date-fns"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
+import { common } from 'lowlight'
 import Link from "next/link"
 import Image from "next/image"
 import { MediaCard } from "@/components/media-card"
@@ -11,6 +12,7 @@ import { remarkMediaCard } from "@/lib/remark-media-card"
 import { ViewCounter } from "@/components/view-counter"
 import { auth } from "@/auth"
 import { TableOfContents } from "@/components/table-of-contents"
+import { getPost } from "@/lib/posts"
 
 // Increase revalidation time for better cache hit rate
 export const revalidate = 3600 // 1 hour
@@ -28,7 +30,7 @@ export async function generateStaticParams() {
     where: { published: true },
     select: { slug: true },
   })
- 
+
   return posts.map((post) => ({
     slug: post.slug,
   }))
@@ -36,9 +38,17 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params
+
+  // Optimization: Select only necessary fields for metadata
   const post = await prisma.post.findUnique({
     where: { slug },
+    select: {
+      title: true,
+      excerpt: true,
+      published: true
+    }
   })
+
   if (!post || !post.published) return {}
   return {
     title: post.title,
@@ -48,14 +58,9 @@ export async function generateMetadata({ params }: PostPageProps) {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params
-  const post = await prisma.post.findUnique({
-    where: { slug },
-    include: { author: true, tags: true, category: true }
-  })
 
-  if (!post) {
-    notFound()
-  }
+  // Use cached data fetching
+  const post = await getPost(slug)
 
   // Only check session if post is not published to avoid dynamic rendering on public posts
   if (!post.published) {
@@ -67,13 +72,13 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200 animate-in fade-in duration-700">
-      
+
       {/* ---------------- Navigation ---------------- */}
       <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center">
         <div className="flex flex-col">
           <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
         </div>
-        
+
         <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
           <Link href="/" className="hover:text-black transition-colors">首页</Link>
           <Link href="/posts" className="hover:text-black transition-colors border-b border-black text-black">博客</Link>
@@ -84,111 +89,111 @@ export default async function PostPage({ params }: PostPageProps) {
       {/* ---------------- Main Content ---------------- */}
       <main className="max-w-3xl mx-auto px-6 pb-20 relative">
         <TableOfContents />
-        
+
         {/* Article Header */}
         <header className="mt-8 mb-12">
           <div className="w-12 h-[1px] bg-gray-300 mb-8"></div>
-          
+
           <h1 className="font-serif text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400 font-sans tracking-wide">
             <time dateTime={post.createdAt.toISOString()}>
               {format(post.createdAt, "yyyy-MM-dd")}
             </time>
-            
+
             {post.category && (
               <span className="uppercase tracking-widest text-xs">
                 {post.category.name}
               </span>
             )}
-            
+
             <ViewCounter slug={post.slug} initialViews={post.viewCount} />
           </div>
         </header>
 
         {/* Cover Image */}
         {post.coverImage && (
-            <div className="relative w-full h-[300px] md:h-[400px] mb-12 overflow-hidden rounded-sm bg-gray-100">
-                <Image 
-                  src={post.coverImage} 
-                  alt={post.title} 
-                  fill
-                  className="object-cover"
-                  priority
-                />
-            </div>
+          <div className="relative w-full h-[300px] md:h-[400px] mb-12 overflow-hidden rounded-sm bg-gray-100">
+            <Image
+              src={post.coverImage}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         )}
 
         {/* Article Content */}
         <article className="prose prose-neutral max-w-none prose-headings:font-serif prose-p:font-serif prose-p:text-gray-600 prose-headings:text-gray-900 prose-img:rounded-sm">
-            <div className="post-content">
-                <ReactMarkdown 
-                    remarkPlugins={[remarkGfm, remarkMediaCard]} 
-                    rehypePlugins={[rehypeHighlight]}
-                    components={{
-                        // @ts-ignore
-                        'media-card': ({node, ...props}) => {
-                            return <MediaCard {...(props as any)} />
-                        },
-                        img: ({node, ...props}) => {
-                            if (!props.src) return null;
-                            return (
-                                <figure className="my-8">
-                                    <Image
-                                        src={props.src as string}
-                                        alt={props.alt || ''}
-                                        width={800}
-                                        height={450}
-                                        className="rounded-sm w-full h-auto"
-                                    />
-                                    {props.title && (
-                                        <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
-                                            {props.title}
-                                        </figcaption>
-                                    )}
-                                </figure>
-                            )
-                        },
-                        blockquote: ({node, children, ...props}) => {
-                            return (
-                                <blockquote className="post-blockquote" {...props}>
-                                    {children}
-                                </blockquote>
-                            )
-                        },
-                        a: ({node, children, ...props}) => {
-                            return (
-                                <a 
-                                    {...props} 
-                                    className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {children}
-                                    <span className="text-[0.7em] ml-1 text-neutral-400">↗</span>
-                                </a>
-                            )
-                        }
-                    }}
-                >
-                    {post.content}
-                </ReactMarkdown>
-            </div>
+          <div className="post-content">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkMediaCard]}
+              rehypePlugins={[[rehypeHighlight, { languages: common }]]}
+              components={{
+                // @ts-ignore
+                'media-card': ({ node, ...props }) => {
+                  return <MediaCard {...(props as any)} />
+                },
+                img: ({ node, ...props }) => {
+                  if (!props.src) return null;
+                  return (
+                    <figure className="my-8">
+                      <Image
+                        src={props.src as string}
+                        alt={props.alt || ''}
+                        width={800}
+                        height={450}
+                        className="rounded-sm w-full h-auto"
+                      />
+                      {props.title && (
+                        <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
+                          {props.title}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )
+                },
+                blockquote: ({ node, children, ...props }) => {
+                  return (
+                    <blockquote className="post-blockquote" {...props}>
+                      {children}
+                    </blockquote>
+                  )
+                },
+                a: ({ node, children, ...props }) => {
+                  return (
+                    <a
+                      {...props}
+                      className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {children}
+                      <span className="text-[0.7em] ml-1 text-neutral-400 select-none">↗</span>
+                    </a>
+                  )
+                }
+              }}
+            >
+              {post.content.replace(/\\\[/g, '[').replace(/\\\]/g, ']')}
+            </ReactMarkdown>
+          </div>
         </article>
 
         {/* Tags */}
         {post.tags.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-gray-200">
-                <div className="flex flex-wrap gap-2">
-                    {post.tags.map(tag => (
-                        <span key={tag.id} className="inline-flex items-center text-xs font-sans text-gray-400 bg-gray-100 px-2.5 py-1 rounded-sm">
-                            #{tag.name}
-                        </span>
-                    ))}
-                </div>
+          <div className="mt-16 pt-8 border-t border-gray-200">
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map(tag => (
+                <span key={tag.id} className="inline-flex items-center text-xs font-sans text-gray-400 bg-gray-100 px-2.5 py-1 rounded-sm">
+                  #{tag.name}
+                </span>
+              ))}
             </div>
+          </div>
         )}
 
       </main>
