@@ -70,6 +70,9 @@
 
 :root {
   --radius: 0.625rem;
+  --font-geist-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --font-geist-mono: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+  --font-noto-serif-sc: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", "Times New Roman", serif;
   --background: #fafafa;
   --foreground: #2c2c2c;
   --card: #ffffff;

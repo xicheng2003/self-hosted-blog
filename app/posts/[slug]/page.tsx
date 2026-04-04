@@ -13,7 +13,6 @@ import { ViewCounter } from "@/components/view-counter"
 import {
   getAdminPostBySlug,
   getPublishedPostBySlug,
-  getPublishedPostSlugs,
   type AdminPostDetail,
   type PublishedPost,
 } from "@/lib/posts"
@@ -22,8 +21,7 @@ import { TableOfContents } from "@/components/table-of-contents"
 import { SiteNav } from "@/components/site-nav"
 import { SiteFooter } from "@/components/site-footer"
 
-// Increase revalidation time for better cache hit rate
-export const revalidate = 3600 // 1 hour
+export const dynamic = "force-dynamic"
 export const dynamicParams = true // Allow generating pages on demand (for new posts or drafts)
 
 interface PostPageProps {
@@ -100,15 +98,6 @@ const markdownComponents = {
     )
   },
 } as unknown as Components
-
-// Generate static params for all published posts at build time
-export async function generateStaticParams() {
-  const posts = await getPublishedPostSlugs()
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
-}
 
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params

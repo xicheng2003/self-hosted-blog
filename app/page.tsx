@@ -6,7 +6,7 @@ import { SiteNav } from "@/components/site-nav"
 import { SiteFooter } from "@/components/site-footer"
 import { AboutSiteSection } from "@/components/about-site-section"
 
-export const revalidate = 3600
+export const dynamic = "force-dynamic"
 
 const inlineActionClass =
   "inline-flex items-center gap-2 font-sans text-sm text-gray-500 transition-colors duration-200 hover:text-black"

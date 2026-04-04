@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site-footer"
 import Link from "next/link"
 import { format } from "date-fns"
 
-export const revalidate = 3600
+export const dynamic = "force-dynamic"
 
 export default async function PostsPage() {
   const posts = await getPublishedPosts()

@@ -9,7 +9,7 @@ const globalForPrisma = globalThis as unknown as {
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
-  max: 2,                       // Keep minimal to avoid exceeding Supabase limits during multi-worker builds
+  max: 1,                       // Session mode is very sensitive to bursty concurrency in serverless/build workers
   idleTimeoutMillis: 0,         // Close idle connections immediately
   connectionTimeoutMillis: 10000, // Fail fast if all connections are busy
 })
