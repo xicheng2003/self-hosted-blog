@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+import { requireAdminApi } from '@/lib/auth'
+
 // GET - Fetch all categories
 export async function GET() {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const categories: Record<string, unknown>[] = await prisma.category.findMany({
       orderBy: { name: 'asc' },
     })
@@ -17,6 +24,11 @@ export async function GET() {
 // POST - Create a new category
 export async function POST(request: Request) {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const body = await request.json()
     const { name, slug } = body
 

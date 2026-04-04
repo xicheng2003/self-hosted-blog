@@ -4,13 +4,33 @@ import { s3Client } from "@/lib/s3"
 import { prisma } from "@/lib/prisma"
 import { v4 as uuidv4 } from "uuid"
 
+import { requireAdminApi } from "@/lib/auth"
+
 export async function POST(req: NextRequest) {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const formData = await req.formData()
     const file = formData.get("file") as File
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 })
+    if (!file || !(file instanceof File)) {
+      return NextResponse.json({ error: "No file uploaded or invalid file" }, { status: 400 })
+    }
+
+    // Validation: Max 10MB
+    const MAX_SIZE = 10 * 1024 * 1024
+    if (file.size > MAX_SIZE) {
+      return NextResponse.json({ error: "File too large (max 10MB)" }, { status: 400 })
+    }
+
+    // Validation: Allowed types
+    const allowedTypes = ['image/', 'video/', 'application/pdf', 'text/']
+    const isAllowed = allowedTypes.some(type => file.type.startsWith(type))
+    if (!isAllowed) {
+      return NextResponse.json({ error: "File type not allowed" }, { status: 400 })
     }
 
     const buffer = Buffer.from(await file.arrayBuffer())

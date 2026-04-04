@@ -1,18 +1,22 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { auth } from "@/auth"
+import { getAdminPostSummaries } from "@/lib/posts"
+import { requireAdminApi } from "@/lib/auth"
 
-// GET - Fetch all posts
+// GET - Fetch post summaries for the admin UI
 export async function GET(request: Request) {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const { searchParams } = new URL(request.url)
     const limit = searchParams.get('limit')
+    const parsedLimit = limit ? Number.parseInt(limit, 10) : undefined
+    const take = parsedLimit && parsedLimit > 0 ? parsedLimit : undefined
 
-    const posts: Record<string, unknown>[] = await prisma.post.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: { author: true, category: true, tags: true },
-      ...(limit && { take: parseInt(limit) }),
-    })
+    const posts = await getAdminPostSummaries(take)
     return NextResponse.json(posts)
   } catch (error) {
     console.error('Fetch posts error:', error)
@@ -23,9 +27,9 @@ export async function GET(request: Request) {
 // POST - Create or Update a post
 export async function POST(request: Request) {
   try {
-    const session = await auth()
-    if (!session || !session.user || !session.user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
     }
 
     const body = await request.json()
@@ -37,7 +41,7 @@ export async function POST(request: Request) {
     }
 
     // Use the logged in user's ID
-    const authorId = session.user.id
+    const authorId = admin.session.user.id
 
     // Handle tags - create if not exists
     const tagConnections = tags && tags.length > 0

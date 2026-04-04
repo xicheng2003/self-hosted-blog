@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+import { requireAdminApi } from '@/lib/auth'
+
 // GET - Fetch all settings
 export async function GET() {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const configs: { id: string; key: string; value: string }[] = await prisma.siteConfig.findMany()
 
     // Convert array to object
@@ -27,6 +34,11 @@ export async function GET() {
 // POST - Save settings
 export async function POST(request: Request) {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const body = await request.json()
     const { site_title, site_description, author_name, author_email } = body
 

@@ -1,18 +1,23 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { auth } from "@/auth"
+import { requireAdminApi } from "@/lib/auth"
+import { getAdminPostBySlug } from "@/lib/posts"
 
-// GET - Fetch single post by slug
+// GET - Fetch a single post for the admin editor
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    void request
+
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const { slug } = await params
-    const post: Record<string, unknown> | null = await prisma.post.findUnique({
-      where: { slug },
-      include: { author: true, category: true, tags: true },
-    })
+    const post = await getAdminPostBySlug(slug)
 
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
@@ -31,15 +36,17 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const session = await auth()
-    if (!session || !session.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    void request
+
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
     }
 
     const { slug } = await params
 
     // Check if post exists first to avoid P2025
-    const existingPost: Record<string, unknown> | null = await prisma.post.findUnique({
+    const existingPost = await prisma.post.findUnique({
       where: { slug },
     })
 

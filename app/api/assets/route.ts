@@ -3,11 +3,18 @@ import { prisma } from '@/lib/prisma'
 import { s3Client } from '@/lib/s3'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 
+import { requireAdminApi } from '@/lib/auth'
+
 export const dynamic = 'force-dynamic'
 
 // GET - Fetch all assets with usage status
 export async function GET() {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const assets: { id: string; url: string; key: string; filename: string; mimeType: string; size: number; createdAt: Date }[] = await prisma.asset.findMany({
       orderBy: { createdAt: 'desc' },
     })
@@ -37,13 +44,19 @@ export async function GET() {
 
     // Concatenate all markdown content for searching
     const allContent = posts.map((p: { content: string | null; coverImage: string | null }) => p.content || '').join(' ')
+    
+    // Extract all potential URLs and keys from content to speed up matching
+    // This is much faster than doing .includes() for every asset on a giant string
+    const contentParts = allContent.split(/[\s()\[\]'"]+/)
+    const contentSegments = new Set(contentParts)
 
     // Determine usage status
     const assetsWithUsage = assets.map((asset: { id: string; url: string; key: string; filename: string; mimeType: string; size: number; createdAt: Date }) => {
       const isUsed =
         exactMatches.has(asset.url) ||
-        allContent.includes(asset.url) ||
-        allContent.includes(asset.key) // Check key just in case
+        contentSegments.has(asset.url) ||
+        contentSegments.has(asset.key) ||
+        allContent.includes(asset.url) // Fallback for cases where it's not cleanly separated by delimiters
 
       return {
         ...asset,
@@ -61,6 +74,11 @@ export async function GET() {
 // DELETE - Delete assets (single or bulk)
 export async function DELETE(req: NextRequest) {
   try {
+    const admin = await requireAdminApi()
+    if ("response" in admin) {
+      return admin.response
+    }
+
     const body = await req.json()
 
     // Normalize to array
@@ -71,7 +89,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     const deletedIds: string[] = []
-    const failedIds: string[] = []
+    const failed: { id: string, key: string, error: string }[] = []
 
     // 1. Delete from S3 (R2) in parallel
     await Promise.all(itemsToDelete.map(async (item: { id: string, key: string }) => {
@@ -83,22 +101,26 @@ export async function DELETE(req: NextRequest) {
           }))
         }
         deletedIds.push(item.id)
-      } catch (s3Error) {
+      } catch (s3Error: unknown) {
         console.error(`S3 Delete Error for ${item.key}:`, s3Error)
-        // If S3 fails, we might still want to delete from DB if it's gone effectively, 
-        // but for safety let's track it. actually for simple blog, just proceed to delete from DB.
-        deletedIds.push(item.id)
+        const error = s3Error as Error
+        failed.push({ id: item.id, key: item.key, error: error.message || 'S3 deletion failed' })
       }
     }))
 
-    // 2. Delete from Database (Batch delete)
+    // 2. Delete from Database (Batch delete) - ONLY for those that succeeded in S3
     if (deletedIds.length > 0) {
       await prisma.asset.deleteMany({
         where: { id: { in: deletedIds } }
       })
     }
 
-    return NextResponse.json({ success: true, deletedCount: deletedIds.length })
+    return NextResponse.json({ 
+      success: failed.length === 0, 
+      deletedCount: deletedIds.length,
+      failedCount: failed.length,
+      failed: failed
+    })
   } catch (error) {
     console.error('Delete asset error:', error)
     return NextResponse.json({ error: 'Failed to delete assets' }, { status: 500 })
