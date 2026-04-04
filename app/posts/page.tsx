@@ -1,36 +1,18 @@
-import { prisma } from "@/lib/prisma"
+import { getPublishedPosts } from "@/lib/posts"
+import { SiteNav } from "@/components/site-nav"
+import { SiteFooter } from "@/components/site-footer"
 import Link from "next/link"
 import { format } from "date-fns"
-import { ArrowRight } from 'lucide-react'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default async function PostsPage() {
-  const posts: {
-    id: string; title: string; slug: string; excerpt: string | null;
-    createdAt: Date; coverImage: string | null; published: boolean;
-    tags: { id: string; name: string; slug: string }[];
-    category: { id: string; name: string; slug: string } | null;
-  }[] = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    include: { tags: true, category: true }
-  })
+  const posts = await getPublishedPosts()
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200 animate-in fade-in duration-700">
 
-      {/* ---------------- Navigation ---------------- */}
-      <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center">
-        <Link href="/" className="flex flex-col">
-          <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
-        </Link>
-
-        <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
-          <Link href="/" className="hover:text-black transition-colors">首页</Link>
-          <Link href="/posts" className="hover:text-black transition-colors border-b border-black text-black">博客</Link>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* ---------------- Main Content ---------------- */}
       <main className="max-w-3xl mx-auto px-6 pb-20">
@@ -82,11 +64,7 @@ export default async function PostsPage() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="max-w-3xl mx-auto px-6 py-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 font-sans tracking-wider">
-        <p>&copy; {new Date().getFullYear()} AuraDawn. All rights reserved.</p>
-        <p className="mt-2 md:mt-0">至繁归于至简。</p>
-      </footer>
+      <SiteFooter />
 
     </div>
   )

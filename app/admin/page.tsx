@@ -12,7 +12,17 @@ import { useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import Link from "next/link"
 
-interface Post {
+interface PostSummary {
+  id: string
+  title: string
+  slug: string
+  published: boolean
+  viewCount: number
+  createdAt: string
+  category?: { name: string } | null
+}
+
+interface PostDetail {
   id: string
   title: string
   slug: string
@@ -38,7 +48,7 @@ export default function AdminDashboard() {
   const searchParams = useSearchParams()
   const slugParam = searchParams.get('slug')
   
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<PostSummary[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [currentPostId, setCurrentPostId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>('content')
@@ -65,7 +75,7 @@ export default function AdminDashboard() {
   const [isSaving, setIsSaving] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
-  const loadPost = useCallback((post: Post) => {
+  const applyPostDetail = useCallback((post: PostDetail) => {
     setCurrentPostId(post.id)
     setTitle(post.title)
     setSlug(post.slug)
@@ -83,51 +93,7 @@ export default function AdminDashboard() {
     setCreatedAt(formattedDate)
   }, [])
 
-  const fetchPosts = useCallback(async () => {
-    try {
-      const res = await fetch('/api/posts')
-      if (res.ok) {
-        const data = await res.json()
-        setPosts(data)
-        if (data.length > 0 && !slugParam) {
-          loadPost(data[0])
-        }
-      }
-    } catch (error) {
-      console.error('Failed to fetch posts:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [slugParam, loadPost])
-
-  const fetchCategories = async () => {
-    try {
-      const res = await fetch('/api/categories')
-      if (res.ok) {
-        const data = await res.json()
-        setCategories(data)
-      }
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-  }
-
-  useEffect(() => {
-    fetchPosts()
-    fetchCategories()
-  }, [fetchPosts])
-
-  // Load post from URL param
-  useEffect(() => {
-    if (slugParam && posts.length > 0) {
-      const post = posts.find(p => p.slug === slugParam)
-      if (post) {
-        loadPost(post)
-      }
-    }
-  }, [slugParam, posts, loadPost])
-
-  const handleNewPost = () => {
+  const resetEditor = useCallback(() => {
     setCurrentPostId(null)
     setTitle('')
     setSlug('')
@@ -137,6 +103,70 @@ export default function AdminDashboard() {
     setCategoryId('')
     setTags([])
     setPublished(true)
+    setCreatedAt("")
+  }, [])
+
+  const fetchPostDetail = useCallback(async (postSlug: string) => {
+    const res = await fetch(`/api/posts/${postSlug}`)
+    if (!res.ok) {
+      throw new Error("Failed to fetch post")
+    }
+
+    const data: PostDetail = await res.json()
+    applyPostDetail(data)
+  }, [applyPostDetail])
+
+  const fetchPosts = useCallback(async (preferredSlug?: string) => {
+    try {
+      const res = await fetch('/api/posts')
+      if (!res.ok) {
+        throw new Error("Failed to fetch posts")
+      }
+
+      const data: PostSummary[] = await res.json()
+      setPosts(data)
+
+      if (data.length === 0) {
+        resetEditor()
+        return
+      }
+
+      const nextSlug =
+        (preferredSlug && data.some((post) => post.slug === preferredSlug) ? preferredSlug : null) ||
+        (slugParam && data.some((post) => post.slug === slugParam) ? slugParam : null) ||
+        data[0].slug
+
+      await fetchPostDetail(nextSlug)
+    } catch (error) {
+      console.error('Failed to fetch posts:', error)
+      toast.error('Failed to load posts')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [fetchPostDetail, resetEditor, slugParam])
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await fetch('/api/categories')
+      if (res.ok) {
+        const data = await res.json()
+        setCategories(data)
+      }
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    void fetchPosts()
+  }, [fetchPosts])
+
+  useEffect(() => {
+    void fetchCategories()
+  }, [fetchCategories])
+
+  const handleNewPost = () => {
+    resetEditor()
     setActiveTab('content')
   }
 
@@ -154,7 +184,6 @@ export default function AdminDashboard() {
 
       toast.success('Post deleted')
       await fetchPosts()
-      handleNewPost()
     } catch (error) {
       toast.error('Failed to delete post')
       console.error(error)
@@ -179,13 +208,13 @@ export default function AdminDashboard() {
       if (!res.ok) throw new Error('Failed to create category')
 
       const newCategory = await res.json()
-      setCategories([...categories, newCategory])
+      setCategories((currentCategories) => [...currentCategories, newCategory])
       setCategoryId(newCategory.id)
       setIsCreatingCategory(false)
       setNewCategoryName("")
       setNewCategorySlug("")
       toast.success('Category created')
-    } catch (error) {
+    } catch {
       toast.error('Failed to create category')
     }
   }
@@ -214,7 +243,7 @@ export default function AdminDashboard() {
       const savedPost = await res.json()
       toast.success('Post saved successfully')
       
-      await fetchPosts()
+      await fetchPosts(savedPost.slug ?? slug)
       setCurrentPostId(savedPost.id)
     } catch (error) {
       toast.error('Failed to save post')
@@ -316,7 +345,9 @@ export default function AdminDashboard() {
               {posts.map((post) => (
                 <button
                   key={post.id}
-                  onClick={() => loadPost(post)}
+                  onClick={() => {
+                    void fetchPostDetail(post.slug)
+                  }}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
                     currentPostId === post.id
                       ? 'bg-neutral-100 text-neutral-900'
@@ -401,7 +432,7 @@ export default function AdminDashboard() {
                 
                 {/* Slug Input */}
                 <div className="mb-8 flex items-center gap-2 text-sm text-neutral-400 font-mono">
-                  <span>/post/</span>
+                  <span>/posts/</span>
                   <input
                     type="text"
                     value={slug}
@@ -444,6 +475,7 @@ export default function AdminDashboard() {
                   />
                   {coverImage && (
                     <div className="mt-2 rounded-md overflow-hidden border">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img 
                         src={coverImage} 
                         alt="Cover preview" 

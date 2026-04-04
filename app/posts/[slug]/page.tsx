@@ -1,18 +1,26 @@
-import { prisma } from "@/lib/prisma"
-import { notFound } from "next/navigation"
+import type { ComponentProps } from "react"
 import { format } from "date-fns"
+import { notFound } from "next/navigation"
 import ReactMarkdown from 'react-markdown'
+import type { Components, ExtraProps } from "react-markdown"
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { common } from 'lowlight'
-import Link from "next/link"
 import Image from "next/image"
 import { MediaCard } from "@/components/media-card"
 import { remarkMediaCard } from "@/lib/remark-media-card"
 import { ViewCounter } from "@/components/view-counter"
+import {
+  getAdminPostBySlug,
+  getPublishedPostBySlug,
+  getPublishedPostSlugs,
+  type AdminPostDetail,
+  type PublishedPost,
+} from "@/lib/posts"
 import { auth } from "@/auth"
 import { TableOfContents } from "@/components/table-of-contents"
-import { getPost } from "@/lib/posts"
+import { SiteNav } from "@/components/site-nav"
+import { SiteFooter } from "@/components/site-footer"
 
 // Increase revalidation time for better cache hit rate
 export const revalidate = 3600 // 1 hour
@@ -24,32 +32,93 @@ interface PostPageProps {
   }>
 }
 
+type RenderablePost = PublishedPost | AdminPostDetail
+type MediaCardMarkdownProps = ComponentProps<typeof MediaCard> & ExtraProps
+type MarkdownImageProps = ComponentProps<"img"> & ExtraProps
+type MarkdownBlockquoteProps = ComponentProps<"blockquote"> & ExtraProps
+type MarkdownAnchorProps = ComponentProps<"a"> & ExtraProps
+
+function isRemoteImageSource(src?: string | null) {
+  return typeof src === "string" && /^https?:\/\//.test(src)
+}
+
+const markdownComponents = {
+  "media-card": (props: MediaCardMarkdownProps) => {
+    const { node, ...mediaCardProps } = props
+    void node
+
+    return <MediaCard {...(mediaCardProps as ComponentProps<typeof MediaCard>)} />
+  },
+  img: (props: MarkdownImageProps) => {
+    const { node, src, alt, title } = props
+    void node
+
+    if (!src || typeof src !== "string") return null
+
+    return (
+      <figure className="my-8">
+        <Image
+          src={src}
+          alt={alt || ""}
+          width={800}
+          height={450}
+          unoptimized={isRemoteImageSource(src)}
+          className="rounded-sm w-full h-auto"
+        />
+        {title && (
+          <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
+            {title}
+          </figcaption>
+        )}
+      </figure>
+    )
+  },
+  blockquote: (props: MarkdownBlockquoteProps) => {
+    const { node, children, ...blockquoteProps } = props
+    void node
+
+    return (
+      <blockquote className="post-blockquote" {...blockquoteProps}>
+        {children}
+      </blockquote>
+    )
+  },
+  a: (props: MarkdownAnchorProps) => {
+    const { node, children, ...anchorProps } = props
+    void node
+
+    return (
+      <a
+        {...anchorProps}
+        className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+        <span className="text-[0.7em] ml-1 text-neutral-400 select-none">↗</span>
+      </a>
+    )
+  },
+} as unknown as Components
+
 // Generate static params for all published posts at build time
 export async function generateStaticParams() {
-  const posts: { slug: string }[] = await prisma.post.findMany({
-    where: { published: true },
-    select: { slug: true },
-  })
+  const posts = await getPublishedPostSlugs()
 
-  return posts.map((post: { slug: string }) => ({
+  return posts.map((post) => ({
     slug: post.slug,
   }))
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params
+  
+  const post = await getPublishedPostBySlug(slug)
 
-  // Optimization: Select only necessary fields for metadata
-  const post: { title: string; excerpt: string | null; published: boolean } | null = await prisma.post.findUnique({
-    where: { slug },
-    select: {
-      title: true,
-      excerpt: true,
-      published: true
-    }
-  })
+  if (!post) {
+    return {}
+  }
 
-  if (!post || !post.published) return {}
   return {
     title: post.title,
     description: post.excerpt,
@@ -58,32 +127,27 @@ export async function generateMetadata({ params }: PostPageProps) {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params
+  const publishedPost = await getPublishedPostBySlug(slug)
 
-  // Use cached data fetching
-  const post = await getPost(slug)
+  let post: RenderablePost | null = publishedPost
 
-  // Only check session if post is not published to avoid dynamic rendering on public posts
-  if (!post.published) {
+  if (!post) {
     const session = await auth()
-    if (!session) {
-      notFound()
+    const isAdmin = session?.user?.role === "ADMIN"
+
+    if (isAdmin) {
+      post = await getAdminPostBySlug(slug)
     }
+  }
+
+  if (!post) {
+    notFound()
   }
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200 animate-in fade-in duration-700">
 
-      {/* ---------------- Navigation ---------------- */}
-      <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center">
-        <Link href="/" className="flex flex-col">
-          <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
-        </Link>
-
-        <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
-          <Link href="/" className="hover:text-black transition-colors">首页</Link>
-          <Link href="/posts" className="hover:text-black transition-colors border-b border-black text-black">博客</Link>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* ---------------- Main Content ---------------- */}
       <main className="max-w-3xl mx-auto px-6 pb-20 relative">
@@ -119,6 +183,7 @@ export default async function PostPage({ params }: PostPageProps) {
               src={post.coverImage}
               alt={post.title}
               fill
+              unoptimized={isRemoteImageSource(post.coverImage)}
               className="object-cover"
               priority
             />
@@ -131,51 +196,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMediaCard]}
               rehypePlugins={[[rehypeHighlight, { languages: common }]]}
-              components={{
-                // @ts-ignore
-                'media-card': ({ node, ...props }) => {
-                  return <MediaCard {...(props as any)} />
-                },
-                img: ({ node, ...props }) => {
-                  if (!props.src) return null;
-                  return (
-                    <figure className="my-8">
-                      <Image
-                        src={props.src as string}
-                        alt={props.alt || ''}
-                        width={800}
-                        height={450}
-                        className="rounded-sm w-full h-auto"
-                      />
-                      {props.title && (
-                        <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
-                          {props.title}
-                        </figcaption>
-                      )}
-                    </figure>
-                  )
-                },
-                blockquote: ({ node, children, ...props }) => {
-                  return (
-                    <blockquote className="post-blockquote" {...props}>
-                      {children}
-                    </blockquote>
-                  )
-                },
-                a: ({ node, children, ...props }) => {
-                  return (
-                    <a
-                      {...props}
-                      className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {children}
-                      <span className="text-[0.7em] ml-1 text-neutral-400 select-none">↗</span>
-                    </a>
-                  )
-                }
-              }}
+              components={markdownComponents}
             >
               {post.content.replace(/\\\[/g, '[').replace(/\\\]/g, ']')}
             </ReactMarkdown>
@@ -197,11 +218,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
       </main>
 
-      {/* Footer */}
-      <footer className="max-w-3xl mx-auto px-6 py-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 font-sans tracking-wider">
-        <p>&copy; {new Date().getFullYear()} AuraDawn. All rights reserved.</p>
-        <p className="mt-2 md:mt-0">至繁归于至简。</p>
-      </footer>
+      <SiteFooter />
 
     </div>
   )

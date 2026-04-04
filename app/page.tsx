@@ -1,39 +1,20 @@
-import { prisma } from "@/lib/prisma"
+import { getLatestPublishedPosts } from "@/lib/posts"
 import Link from "next/link"
 import { ArrowRight, Github, Twitter, Mail, MapPin, Activity } from 'lucide-react'
 import { format } from "date-fns"
+import { SiteNav } from "@/components/site-nav"
+import { SiteFooter } from "@/components/site-footer"
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default async function Home() {
   // Fetch latest 3 posts for "Selected Writing"
-  const posts: { id: string; title: string; slug: string; excerpt: string | null; createdAt: Date }[] = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    take: 3,
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      excerpt: true,
-      createdAt: true,
-    }
-  })
+  const posts = await getLatestPublishedPosts(3)
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200">
 
-      {/* ---------------- Navigation ---------------- */}
-      <nav className="max-w-3xl mx-auto px-6 py-12 flex justify-between items-center animate-enter-up">
-        <Link href="/" className="flex flex-col">
-          <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
-        </Link>
-
-        <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
-          <Link href="/" className="hover:text-black transition-colors border-b border-black text-black">首页</Link>
-          <Link href="/posts" className="hover:text-black transition-colors hover:border-b hover:border-gray-300">文章</Link>
-        </div>
-      </nav>
+      <SiteNav animate />
 
       {/* ---------------- Main Content ---------------- */}
       <main className="max-w-3xl mx-auto px-6 pb-20">
@@ -99,7 +80,7 @@ export default async function Home() {
               </p>
               <p className="text-sm text-gray-500 mt-2 font-sans flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                已完赛-半程马拉松（2'03"35）
+                已完赛-半程马拉松（2&apos;03&quot;35）
               </p>
             </a>
           </div>
@@ -144,11 +125,7 @@ export default async function Home() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="max-w-3xl mx-auto px-6 py-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 font-sans tracking-wider">
-        <p>&copy; 2023-{new Date().getFullYear()} AuraDawn. All rights reserved.</p>
-        <p className="mt-2 md:mt-0">至繁归于至简。</p>
-      </footer>
+      <SiteFooter />
 
     </div>
   )

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { startTransition, useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,20 +29,34 @@ export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
   const [recentPosts, setRecentPosts] = useState<Post[]>([])
 
-  const fetchRecentPosts = async () => {
-    try {
-      const res = await fetch('/api/posts?limit=5')
-      if (res.ok) {
-        const data = await res.json()
-        setRecentPosts(data)
-      }
-    } catch (error) {
-      console.error('Failed to fetch recent posts:', error)
-    }
-  }
-
   useEffect(() => {
-    fetchRecentPosts()
+    let cancelled = false
+
+    const loadRecentPosts = async () => {
+      try {
+        const res = await fetch('/api/posts?limit=5')
+        if (!res.ok || cancelled) {
+          return
+        }
+
+        const data: Post[] = await res.json()
+        if (cancelled) {
+          return
+        }
+
+        startTransition(() => {
+          setRecentPosts(data)
+        })
+      } catch (error) {
+        console.error('Failed to fetch recent posts:', error)
+      }
+    }
+
+    void loadRecentPosts()
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const routes = [

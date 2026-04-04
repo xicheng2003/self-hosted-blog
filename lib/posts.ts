@@ -1,33 +1,162 @@
-
-import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 import { cache } from "react"
-import { notFound } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 
-interface PostWithRelations {
-    id: string; title: string; slug: string; content: string;
-    excerpt: string | null; coverImage: string | null;
-    published: boolean; viewCount: number;
-    createdAt: Date; updatedAt: Date;
-    authorId: string; categoryId: string | null;
-    author: { id: string; name: string | null; email: string; image: string | null };
-    tags: { id: string; name: string; slug: string }[];
-    category: { id: string; name: string; slug: string } | null;
-}
+const publishedPostDetailSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  coverImage: true,
+  published: true,
+  viewCount: true,
+  createdAt: true,
+  category: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+    },
+  },
+  tags: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+    },
+  },
+} satisfies Prisma.PostSelect
 
-export const getPost = cache(async (slug: string): Promise<PostWithRelations> => {
-    const post = await prisma.post.findUnique({
-        where: { slug },
-        include: { author: true, tags: true, category: true }
-    })
+const latestPublishedPostSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  excerpt: true,
+  createdAt: true,
+} satisfies Prisma.PostSelect
 
-    if (!post) {
-        notFound()
-    }
+const publishedPostListSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  excerpt: true,
+  createdAt: true,
+  category: {
+    select: {
+      name: true,
+    },
+  },
+} satisfies Prisma.PostSelect
 
-    return post as PostWithRelations
+const adminPostSummarySelect = {
+  id: true,
+  title: true,
+  slug: true,
+  published: true,
+  viewCount: true,
+  createdAt: true,
+  category: {
+    select: {
+      name: true,
+    },
+  },
+} satisfies Prisma.PostSelect
+
+const adminPostDetailSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  coverImage: true,
+  published: true,
+  viewCount: true,
+  categoryId: true,
+  createdAt: true,
+  category: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+  tags: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+} satisfies Prisma.PostSelect
+
+export type PublishedPost = Prisma.PostGetPayload<{
+  select: typeof publishedPostDetailSelect
+}>
+
+export type LatestPublishedPost = Prisma.PostGetPayload<{
+  select: typeof latestPublishedPostSelect
+}>
+
+export type PublishedPostListItem = Prisma.PostGetPayload<{
+  select: typeof publishedPostListSelect
+}>
+
+export type AdminPostSummary = Prisma.PostGetPayload<{
+  select: typeof adminPostSummarySelect
+}>
+
+export type AdminPostDetail = Prisma.PostGetPayload<{
+  select: typeof adminPostDetailSelect
+}>
+
+export const getPublishedPostBySlug = cache(async (slug: string) => {
+  return prisma.post.findFirst({
+    where: { slug, published: true },
+    select: publishedPostDetailSelect,
+  })
 })
 
-// Optional: Preload function pattern if needed in future
-export const preloadPost = (slug: string) => {
-    void getPost(slug)
+export const getAdminPostBySlug = async (slug: string) => {
+  return prisma.post.findUnique({
+    where: { slug },
+    select: adminPostDetailSelect,
+  })
+}
+
+export const getLatestPublishedPosts = cache(async (limit = 3) => {
+  return prisma.post.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    select: latestPublishedPostSelect,
+  })
+})
+
+export const getPublishedPosts = cache(async () => {
+  return prisma.post.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "desc" },
+    select: publishedPostListSelect,
+  })
+})
+
+export const getPublishedPostSlugs = cache(async () => {
+  return prisma.post.findMany({
+    where: { published: true },
+    select: { slug: true },
+  })
+})
+
+export const getSitemapData = cache(async () => {
+  return prisma.post.findMany({
+    where: { published: true },
+    select: { slug: true, updatedAt: true },
+  })
+})
+
+export const getAdminPostSummaries = async (limit?: number) => {
+  return prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+    select: adminPostSummarySelect,
+    ...(limit ? { take: limit } : {}),
+  })
 }
