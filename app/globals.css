@@ -14,7 +14,7 @@
   }
 
   .post-blockquote {
-    @apply my-8 pl-6 border-l-2 border-neutral-300 text-neutral-600 font-serif leading-loose;
+    @apply my-8 pl-6 border-l-2 border-neutral-300 text-neutral-600 font-serif leading-8;
     font-style: normal !important;
   }
 

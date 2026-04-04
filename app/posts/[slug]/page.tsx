@@ -157,11 +157,11 @@ export default async function PostPage({ params }: PostPageProps) {
         <header className="mt-8 mb-12">
           <div className="w-12 h-[1px] bg-gray-300 mb-8"></div>
 
-          <h1 className="font-serif text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900">
+          <h1 className="font-serif text-3xl md:text-4xl font-bold leading-tight mb-6 text-gray-900">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400 font-sans tracking-wide">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] md:text-sm text-gray-400 font-sans tracking-wide">
             <time dateTime={post.createdAt.toISOString()}>
               {format(post.createdAt, "yyyy-MM-dd")}
             </time>
@@ -191,7 +191,7 @@ export default async function PostPage({ params }: PostPageProps) {
         )}
 
         {/* Article Content */}
-        <article className="prose prose-neutral max-w-none prose-headings:font-serif prose-p:font-serif prose-p:text-gray-600 prose-li:font-serif prose-li:text-gray-600 prose-headings:text-gray-900 prose-img:rounded-sm">
+        <article className="prose prose-neutral max-w-none prose-base prose-headings:font-serif prose-p:font-serif prose-p:text-[15px] prose-p:leading-8 prose-p:text-gray-600 prose-li:font-serif prose-li:text-[15px] prose-li:leading-8 prose-li:text-gray-600 prose-headings:text-gray-900 prose-h2:text-[1.65rem] prose-h3:text-[1.35rem] prose-h4:text-[1.15rem] prose-img:rounded-sm">
           <div className="post-content">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMediaCard]}

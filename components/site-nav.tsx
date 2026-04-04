@@ -9,14 +9,14 @@ export function SiteNav({ animate = false }: { animate?: boolean }) {
   
   return (
     <nav className={cn(
-      "max-w-3xl mx-auto px-6 py-12 flex justify-between items-center",
+      "max-w-3xl mx-auto px-6 py-10 md:py-11 flex justify-between items-center",
       animate && "animate-enter-up"
     )}>
       <Link href="/" className="flex flex-col">
-        <h1 className="font-serif text-xl font-bold tracking-wide">AuraDawn</h1>
+        <h1 className="font-serif text-lg md:text-[1.15rem] font-semibold tracking-[0.06em]">AuraDawn</h1>
       </Link>
 
-      <div className="flex gap-6 text-sm tracking-wide text-gray-500 font-sans">
+      <div className="flex gap-5 text-[13px] md:text-sm tracking-[0.08em] text-gray-500 font-sans">
         <Link 
           href="/" 
           className={cn(
