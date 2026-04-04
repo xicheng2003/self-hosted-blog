@@ -166,7 +166,7 @@ export default function PostsPage() {
                           <Link href={`/admin?slug=${post.slug}`}>Edit</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/post/${post.slug}`} target="_blank">View on site</Link>
+                          <Link href={`/posts/${post.slug}`} target="_blank">View on site</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem 

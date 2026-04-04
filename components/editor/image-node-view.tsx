@@ -1,7 +1,7 @@
 "use client"
 
 import { NodeViewWrapper, NodeViewProps } from '@tiptap/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -12,12 +12,6 @@ export function ImageNodeView(props: NodeViewProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [alt, setAlt] = useState(node.attrs.alt || '')
   const [title, setTitle] = useState(node.attrs.title || '')
-
-  // Sync state when node attributes change externally
-  useEffect(() => {
-    setAlt(node.attrs.alt || '')
-    setTitle(node.attrs.title || '')
-  }, [node.attrs.alt, node.attrs.title])
 
   const handleSave = () => {
     updateAttributes({
@@ -103,4 +97,3 @@ export function ImageNodeView(props: NodeViewProps) {
     </NodeViewWrapper>
   )
 }
-

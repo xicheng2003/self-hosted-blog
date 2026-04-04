@@ -1,8 +1,14 @@
 import { PrismaClient } from '@prisma/client'
+import { hash } from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
 async function main() {
+  const seedAdminPassword = process.env.SEED_ADMIN_PASSWORD
+  if (!seedAdminPassword) {
+    throw new Error("SEED_ADMIN_PASSWORD is required to seed the admin user")
+  }
+
   // 1. Create Admin User
   const adminEmail = 'admin@example.com'
   const existingAdmin = await prisma.user.findUnique({
@@ -12,11 +18,12 @@ async function main() {
   let adminId = existingAdmin?.id
 
   if (!existingAdmin) {
+    const hashedPassword = await hash(seedAdminPassword, 10)
     const admin = await prisma.user.create({
       data: {
         email: adminEmail,
         name: 'Admin User',
-        password: 'hashed_password_placeholder', // In real app, use bcrypt
+        password: hashedPassword,
         role: 'ADMIN',
       }
     })
