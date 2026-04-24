@@ -21,19 +21,8 @@ const MIME_EXTENSION_MAP: Record<string, string> = {
   "text/plain": "txt",
 }
 
-type UploadInput = {
-  arrayBuffer: () => Promise<ArrayBuffer>
-  size: number
-  type: string
-  name?: string
-}
-
-function isUploadInput(value: FormDataEntryValue | null): value is UploadInput {
-  return !!value &&
-    typeof value === "object" &&
-    "arrayBuffer" in value &&
-    "size" in value &&
-    "type" in value
+function isUploadInput(value: FormDataEntryValue | null): value is File {
+  return value instanceof File
 }
 
 function inferExtensionFromMimeType(mimeType: string) {
@@ -71,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer())
     const fallbackFilename = `upload-${Date.now()}.${inferExtensionFromMimeType(file.type)}`
-    const originalFilename = typeof file.name === "string" && file.name.trim().length > 0
+    const originalFilename = file instanceof File && file.name.trim().length > 0
       ? file.name
       : fallbackFilename
     // Sanitize filename: replace spaces and special chars with underscores

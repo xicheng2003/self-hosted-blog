@@ -28,11 +28,14 @@ export async function GET(_: NextRequest, context: RouteContext) {
     )
 
     const bytes = object.Body ? await object.Body.transformToByteArray() : new Uint8Array()
+    const bodyBytes = Uint8Array.from(bytes)
+    const contentType = object.ContentType || "application/octet-stream"
+    const body = new Blob([bodyBytes], { type: contentType })
 
-    return new NextResponse(bytes, {
+    return new NextResponse(body, {
       headers: {
-        "Content-Type": object.ContentType || "application/octet-stream",
-        "Content-Length": object.ContentLength?.toString() || bytes.byteLength.toString(),
+        "Content-Type": contentType,
+        "Content-Length": object.ContentLength?.toString() || body.size.toString(),
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     })
