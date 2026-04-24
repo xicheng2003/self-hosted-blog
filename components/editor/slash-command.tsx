@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { toast } from "sonner"
+import { uploadAsset } from "@/lib/upload-client"
 
 // 1. Define the Command Item Interface
 interface CommandItemProps {
@@ -102,25 +103,15 @@ const getSuggestionItems = ({ query }: { query: string }) => {
         input.onchange = async () => {
           if (input.files?.length) {
             const file = input.files[0]
-            const formData = new FormData()
-            formData.append("file", file)
-
-            const promise = fetch("/api/upload", {
-              method: "POST",
-              body: formData,
-            }).then(async (res) => {
-              if (res.ok) {
-                const data = await res.json()
-                editor.chain().focus().setImage({ src: data.url }).run()
-                return data
-              }
-              throw new Error("Upload failed")
+            const promise = uploadAsset(file).then((data) => {
+              editor.chain().focus().setImage({ src: data.url }).run()
+              return data
             })
 
             toast.promise(promise, {
               loading: "Uploading image...",
               success: "Image uploaded",
-              error: "Failed to upload image",
+              error: (error) => error instanceof Error ? error.message : "Failed to upload image",
             })
           }
         }

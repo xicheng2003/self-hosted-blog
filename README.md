@@ -12,7 +12,7 @@ A minimalist, self-hosted blog platform built with Next.js 15+, Tailwind CSS, an
 - **Media Cards**: Automatic rich link previews for external URLs within posts.
 - **Admin Dashboard**: 
   - Rich text editor (Tiptap) for writing and editing posts.
-  - Image upload support (S3/MinIO compatible).
+  - Image upload support (MinIO / S3-compatible storage).
   - Post management (Publish/Unpublish, Tags, Categories).
 - **SEO Optimized**: Built-in sitemap, robots.txt, and dynamic metadata.
 - **Responsive**: Fully responsive layout for mobile and desktop.
@@ -61,13 +61,21 @@ A minimalist, self-hosted blog platform built with Next.js 15+, Tailwind CSS, an
     # Authentication (NextAuth)
     AUTH_SECRET="your-random-secret-key" # Generate with: npx auth secret
 
-    # Object Storage (S3/MinIO)
+    # Object Storage (MinIO)
+    # S3_ENDPOINT must point to the MinIO S3 API endpoint.
+    # S3_PUBLIC_DOMAIN must point to the public domain that serves the same bucket.
     S3_ENDPOINT="http://localhost:9000"
-    S3_ACCESS_KEY_ID="your-access-key"
-    S3_SECRET_ACCESS_KEY="your-secret-key"
+    S3_ACCESS_KEY_ID="your-minio-access-key"
+    S3_SECRET_ACCESS_KEY="your-minio-secret-key"
     S3_BUCKET_NAME="blog-images"
     S3_REGION="us-east-1"
+    S3_PUBLIC_DOMAIN="https://oss.example.com"
     ```
+
+    MinIO notes:
+    - `S3_ENDPOINT` is the MinIO API address used for uploads and deletes.
+    - `S3_PUBLIC_DOMAIN` is the public domain used in stored asset URLs.
+    - These two values must serve the same bucket. If they point to different backends, uploads will succeed but images will 404.
 
 4.  **Database Setup**
     Push the schema to your database:

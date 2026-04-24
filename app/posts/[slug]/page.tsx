@@ -10,6 +10,7 @@ import Image from "next/image"
 import { MediaCard } from "@/components/media-card"
 import { remarkMediaCard } from "@/lib/remark-media-card"
 import { ViewCounter } from "@/components/view-counter"
+import { resolveManagedAssetUrl } from "@/lib/asset-url"
 import {
   getAdminPostBySlug,
   getPublishedPostBySlug,
@@ -40,64 +41,67 @@ function isRemoteImageSource(src?: string | null) {
   return typeof src === "string" && /^https?:\/\//.test(src)
 }
 
-const markdownComponents = {
-  "media-card": (props: MediaCardMarkdownProps) => {
-    const { node, ...mediaCardProps } = props
-    void node
+function getMarkdownComponents(publicAssetDomain?: string) {
+  return {
+    "media-card": (props: MediaCardMarkdownProps) => {
+      const { node, ...mediaCardProps } = props
+      void node
 
-    return <MediaCard {...(mediaCardProps as ComponentProps<typeof MediaCard>)} />
-  },
-  img: (props: MarkdownImageProps) => {
-    const { node, src, alt, title } = props
-    void node
+      return <MediaCard {...(mediaCardProps as ComponentProps<typeof MediaCard>)} />
+    },
+    img: (props: MarkdownImageProps) => {
+      const { node, src, alt, title } = props
+      void node
 
-    if (!src || typeof src !== "string") return null
+      if (!src || typeof src !== "string") return null
+      const resolvedSrc = resolveManagedAssetUrl(src, publicAssetDomain)
 
-    return (
-      <figure className="my-8">
-        <Image
-          src={src}
-          alt={alt || ""}
-          width={800}
-          height={450}
-          unoptimized={isRemoteImageSource(src)}
-          className="rounded-sm w-full h-auto"
-        />
-        {title && (
-          <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
-            {title}
-          </figcaption>
-        )}
-      </figure>
-    )
-  },
-  blockquote: (props: MarkdownBlockquoteProps) => {
-    const { node, children, ...blockquoteProps } = props
-    void node
+      return (
+        <figure className="my-8">
+          <Image
+            src={resolvedSrc}
+            alt={alt || ""}
+            width={800}
+            height={450}
+            unoptimized={isRemoteImageSource(resolvedSrc)}
+            className="rounded-sm w-full h-auto"
+          />
+          {title && (
+            <figcaption className="text-center text-sm text-gray-500 mt-2 italic">
+              {title}
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
+    blockquote: (props: MarkdownBlockquoteProps) => {
+      const { node, children, ...blockquoteProps } = props
+      void node
 
-    return (
-      <blockquote className="post-blockquote" {...blockquoteProps}>
-        {children}
-      </blockquote>
-    )
-  },
-  a: (props: MarkdownAnchorProps) => {
-    const { node, children, ...anchorProps } = props
-    void node
+      return (
+        <blockquote className="post-blockquote" {...blockquoteProps}>
+          {children}
+        </blockquote>
+      )
+    },
+    a: (props: MarkdownAnchorProps) => {
+      const { node, children, ...anchorProps } = props
+      void node
 
-    return (
-      <a
-        {...anchorProps}
-        className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {children}
-        <span className="text-[0.7em] ml-1 text-neutral-400 select-none">↗</span>
-      </a>
-    )
-  },
-} as unknown as Components
+      return (
+        <a
+          {...anchorProps}
+          className="text-neutral-800 hover:text-neutral-500 transition-colors underline decoration-neutral-300 underline-offset-4 decoration-1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+          <span className="text-[0.7em] ml-1 text-neutral-400 select-none">↗</span>
+        </a>
+      )
+    },
+  } as unknown as Components
+}
 
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params
@@ -117,6 +121,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params
   const publishedPost = await getPublishedPostBySlug(slug)
+  const publicAssetDomain = process.env.S3_PUBLIC_DOMAIN
 
   let post: RenderablePost | null = publishedPost
 
@@ -132,6 +137,10 @@ export default async function PostPage({ params }: PostPageProps) {
   if (!post) {
     notFound()
   }
+
+  const coverImageSrc = post.coverImage
+    ? resolveManagedAssetUrl(post.coverImage, publicAssetDomain)
+    : null
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans selection:bg-gray-200 animate-in fade-in duration-700">
@@ -166,13 +175,13 @@ export default async function PostPage({ params }: PostPageProps) {
         </header>
 
         {/* Cover Image */}
-        {post.coverImage && (
+        {coverImageSrc && (
           <div className="relative w-full h-[300px] md:h-[400px] mb-12 overflow-hidden rounded-sm bg-gray-100">
             <Image
-              src={post.coverImage}
+              src={coverImageSrc}
               alt={post.title}
               fill
-              unoptimized={isRemoteImageSource(post.coverImage)}
+              unoptimized={isRemoteImageSource(coverImageSrc)}
               className="object-cover"
               priority
             />
@@ -185,7 +194,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMediaCard]}
               rehypePlugins={[[rehypeHighlight, { languages: common }]]}
-              components={markdownComponents}
+              components={getMarkdownComponents(publicAssetDomain)}
             >
               {post.content.replace(/\\\[/g, '[').replace(/\\\]/g, ']')}
             </ReactMarkdown>

@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { SlashCommand, suggestion } from './slash-command'
 import { toast } from "sonner"
 import { CustomImage } from '@/lib/custom-image-extension'
+import { uploadAsset } from '@/lib/upload-client'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -22,24 +23,12 @@ export function Editor({ value, onChange }: EditorProps) {
   const [isPlainText, setIsPlainText] = useState(false)
 
   const uploadImage = async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
-
-    const promise = fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    }).then(async (res) => {
-      if (res.ok) {
-        const { url } = await res.json()
-        return url
-      }
-      throw new Error('Upload failed')
-    })
+    const promise = uploadAsset(file).then(({ url }) => url)
 
     toast.promise(promise, {
       loading: 'Uploading image...',
       success: 'Image uploaded',
-      error: 'Failed to upload image',
+      error: (error) => error instanceof Error ? error.message : 'Failed to upload image',
     })
 
     return promise
@@ -77,13 +66,17 @@ export function Editor({ value, onChange }: EditorProps) {
           event.preventDefault()
           const file = item.getAsFile()
           if (file) {
-            uploadImage(file).then((url) => {
-              const image = view.state.schema.nodes.image.create({
-                src: url
+            void uploadImage(file)
+              .then((url) => {
+                const image = view.state.schema.nodes.image.create({
+                  src: url
+                })
+                const transaction = view.state.tr.replaceSelectionWith(image)
+                view.dispatch(transaction)
               })
-              const transaction = view.state.tr.replaceSelectionWith(image)
-              view.dispatch(transaction)
-            })
+              .catch((error) => {
+                console.error('Image upload failed:', error)
+              })
           }
           return true
         }
@@ -94,17 +87,21 @@ export function Editor({ value, onChange }: EditorProps) {
           const file = event.dataTransfer.files[0]
           if (file.type.indexOf('image') === 0) {
             event.preventDefault()
-            uploadImage(file).then((url) => {
-              const { schema } = view.state
-              const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
-              if (coordinates) {
-                const node = schema.nodes.image.create({
-                  src: url
-                })
-                const transaction = view.state.tr.insert(coordinates.pos, node)
-                view.dispatch(transaction)
-              }
-            })
+            void uploadImage(file)
+              .then((url) => {
+                const { schema } = view.state
+                const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
+                if (coordinates) {
+                  const node = schema.nodes.image.create({
+                    src: url
+                  })
+                  const transaction = view.state.tr.insert(coordinates.pos, node)
+                  view.dispatch(transaction)
+                }
+              })
+              .catch((error) => {
+                console.error('Image upload failed:', error)
+              })
             return true
           }
         }

@@ -4,10 +4,12 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { FolderOpen, Upload, Trash2, Copy, Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { buildAssetProxyPath } from "@/lib/asset-url"
 
 interface Asset {
   id: string
   url: string
+  key: string
   filename: string
   mimeType: string
   size: number
@@ -67,6 +69,10 @@ export default function FilesPage() {
   const copyUrl = (url: string) => {
     navigator.clipboard.writeText(url)
     toast.success('URL copied to clipboard')
+  }
+
+  const getAssetUrl = (asset: Asset) => {
+    return asset.url.startsWith('/api/files/') ? asset.url : buildAssetProxyPath(asset.key)
   }
 
   const formatFileSize = (bytes: number) => {
@@ -130,7 +136,7 @@ export default function FilesPage() {
             >
               {asset.mimeType.startsWith('image/') ? (
                 <img 
-                  src={asset.url} 
+                  src={getAssetUrl(asset)} 
                   alt={asset.filename}
                   className="w-full h-32 object-cover"
                 />
@@ -147,7 +153,7 @@ export default function FilesPage() {
                 <Button 
                   size="sm" 
                   variant="secondary"
-                  onClick={() => copyUrl(asset.url)}
+                  onClick={() => copyUrl(getAssetUrl(asset))}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>

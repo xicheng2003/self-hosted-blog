@@ -6,6 +6,7 @@ import { FolderOpen, Upload, Trash2, Copy, Loader2, Filter, CheckSquare, Square,
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
+import { buildAssetProxyPath } from "@/lib/asset-url"
 
 interface Asset {
     id: string
@@ -177,6 +178,10 @@ export default function AssetsPage() {
         toast.success('URL copied to clipboard')
     }
 
+    const getAssetUrl = (asset: Asset) => {
+        return asset.url.startsWith('/api/files/') ? asset.url : buildAssetProxyPath(asset.key)
+    }
+
     const formatFileSize = (bytes: number) => {
         if (bytes < 1024) return bytes + ' B'
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
@@ -303,7 +308,7 @@ export default function AssetsPage() {
                                 >
                                     {asset.mimeType.startsWith('image/') ? (
                                         <img
-                                            src={asset.url}
+                                            src={getAssetUrl(asset)}
                                             alt={asset.filename}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
@@ -337,7 +342,7 @@ export default function AssetsPage() {
                                             size="icon"
                                             variant="secondary"
                                             className="h-8 w-8 rounded-full"
-                                            onClick={() => copyUrl(asset.url)}
+                                            onClick={() => copyUrl(getAssetUrl(asset))}
                                             title="Copy URL"
                                         >
                                             <Copy className="h-4 w-4" />
