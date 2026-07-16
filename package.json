@@ -6,9 +6,10 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint api app components content lib scripts/send-newsletter.ts next.config.ts",
+    "lint": "eslint api app components content lib scripts/import-notion-blog.mjs scripts/send-newsletter.ts next.config.ts",
     "typecheck": "tsc --noEmit",
     "content:export": "node scripts/export-static-content.mjs",
+    "content:notion": "node scripts/import-notion-blog.mjs",
     "newsletter:send": "tsx scripts/send-newsletter.ts"
   },
   "dependencies": {

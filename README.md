@@ -76,4 +76,15 @@ api/                           与静态页面解耦的 Vercel 订阅函数
 
 `npm run content:export` 保留为一次性迁移工具。它只在迁移时读取 `.env` 中的旧数据库与 S3 配置，公开站点不会读取这些变量。重复执行会按数据库内容覆盖同名 Markdown，请先提交或备份手工修改。
 
+Notion 旧博客使用独立的可恢复迁移脚本：
+
+```bash
+npm run content:notion -- inventory
+npm run content:notion -- import
+npm run content:notion -- verify
+```
+
+脚本只导入 Notion 中标记为公开、且当前项目尚不存在的文章；正文图片、封面和附件会写入
+`public/`，新增文章统一保留为 `draft: true`，不会自动发布。
+
 更完整的架构边界与后续和 `home_page` 合并的路径见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)，共用的图标与交互约束见 [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)。
