@@ -1515,13 +1515,22 @@
     flex: 1 1 0;
     gap: 0.55rem;
     font-size: var(--font-size-caption);
+    container-type: inline-size;
   }
 
   .footer-records {
     width: 100%;
     flex-direction: row;
     gap: 0.45rem;
-    font-size: inherit;
+    overflow: visible;
+    font-size: 0.45rem;
+    font-size: clamp(0.25rem, 3.75cqw, var(--font-size-caption));
+    scrollbar-width: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  .footer-records img {
+    width: 1.1em;
   }
 
   .theme-controls {
