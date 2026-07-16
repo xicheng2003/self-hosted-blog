@@ -2,40 +2,69 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { useEffect, useId, useState } from "react"
+
+import { MenuIcon } from "@/components/icons/menu-icon"
+import { siteConfig } from "@/content/site"
 
 export function SiteNav({ animate = false }: { animate?: boolean }) {
   const pathname = usePathname()
-  
-  return (
-    <nav className={cn(
-      "max-w-3xl mx-auto px-6 py-10 md:py-11 flex justify-between items-center",
-      animate && "animate-enter-up"
-    )}>
-      <Link href="/" className="flex flex-col">
-        <h1 className="font-serif text-lg md:text-[1.15rem] font-semibold tracking-[0.06em]">AuraDawn</h1>
-      </Link>
+  const menuId = useId()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuLabel = isMenuOpen ? "关闭导航菜单" : "打开导航菜单"
 
-      <div className="flex gap-5 text-[13px] md:text-sm tracking-[0.08em] text-gray-500 font-sans">
-        <Link 
-          href="/" 
-          className={cn(
-            "hover:text-black transition-colors",
-            pathname === "/" ? "border-b border-black text-black" : "hover:border-b hover:border-gray-300"
-          )}
+  useEffect(() => {
+    if (!isMenuOpen) return undefined
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false)
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isMenuOpen])
+
+  const closeMenu = () => setIsMenuOpen(false)
+
+  return (
+    <header
+      className={`site-topbar${animate ? " reveal" : ""}`}
+      data-menu-open={isMenuOpen ? "true" : "false"}
+    >
+      <a className="site-brand" href={siteConfig.homeUrl} onClick={closeMenu}>
+        {siteConfig.name}
+      </a>
+
+      <button
+        type="button"
+        className="nav-menu-toggle"
+        data-open={isMenuOpen ? "true" : "false"}
+        aria-label={menuLabel}
+        aria-controls={menuId}
+        aria-expanded={isMenuOpen}
+        title={menuLabel}
+        onClick={() => setIsMenuOpen((open) => !open)}
+      >
+        <MenuIcon />
+      </button>
+
+      <nav id={menuId} className="site-navigation" aria-label="主导航">
+        <a href={siteConfig.homeUrl} onClick={closeMenu}>关于</a>
+        <Link
+          href="/"
+          aria-current={pathname === "/" ? "page" : undefined}
+          onClick={closeMenu}
         >
-          首页
+          博客
         </Link>
-        <Link 
-          href="/posts" 
-          className={cn(
-            "hover:text-black transition-colors",
-            pathname.startsWith("/posts") ? "border-b border-black text-black" : "hover:border-b hover:border-gray-300"
-          )}
+        <Link
+          href="/posts"
+          aria-current={pathname.startsWith("/posts") ? "page" : undefined}
+          onClick={closeMenu}
         >
-          文章
+          归档
         </Link>
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
 }

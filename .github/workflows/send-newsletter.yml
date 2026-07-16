@@ -1,0 +1,49 @@
+name: Send new post email
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: Markdown filename without .md
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: newsletter-${{ inputs.slug }}
+  cancel-in-progress: false
+
+jobs:
+  send:
+    name: Send ${{ inputs.slug }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out published content
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate project
+        run: |
+          npm run typecheck
+          npm run lint
+
+      - name: Send newsletter
+        run: npm run newsletter:send -- "${{ inputs.slug }}"
+        env:
+          NEXT_PUBLIC_APP_URL: ${{ vars.BLOG_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM_EMAIL: ${{ vars.RESEND_FROM_EMAIL }}
+          RESEND_REPLY_TO: ${{ vars.RESEND_REPLY_TO }}
+          RESEND_SEGMENT_ID: ${{ secrets.RESEND_SEGMENT_ID }}
+          RESEND_TOPIC_ID: ${{ secrets.RESEND_TOPIC_ID }}

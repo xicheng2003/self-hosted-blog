@@ -1,71 +1,58 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import 'highlight.js/styles/github-dark.css';
-import { Toaster } from "@/components/ui/sonner"
-import NextTopLoader from 'nextjs-toploader';
+import type { Metadata, Viewport } from "next"
+import Script from "next/script"
+import NextTopLoader from "nextjs-toploader"
 
-const geistSans = localFont({
-  src: "./fonts/Geist[wght].woff2",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-  display: "swap",
-  fallback: ["PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", "sans-serif"],
-})
-
-const geistMono = localFont({
-  src: "./fonts/GeistMono[wght].woff2",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-  display: "swap",
-  fallback: ["Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
-})
-
-const notoSerifSC = localFont({
-  variable: "--font-noto-serif-sc",
-  display: "swap",
-  fallback: ["Source Han Serif SC", "Songti SC", "SimSun", "Times New Roman", "serif"],
-  src: [
-    {
-      path: "./fonts/NotoSerifCJKsc-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/NotoSerifCJKsc-Medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/NotoSerifCJKsc-SemiBold.otf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "./fonts/NotoSerifCJKsc-Bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-})
+import { siteConfig } from "@/content/site"
+import "./globals.css"
+import "highlight.js/styles/github-dark.css"
 
 export const metadata: Metadata = {
-  title: "晨曦的博客",
-  description: "A self-hosted blog",
-};
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.title, template: `%s · ${siteConfig.name}` },
+  description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": `${siteConfig.url}/rss.xml` },
+  },
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f8f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#111110" },
+  ],
+}
+
+const themeScript = `
+  try {
+    const theme = localStorage.getItem('home-page.theme');
+    const resolved = theme === 'dark' || theme === 'light'
+      ? theme
+      : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = resolved;
+  } catch {}
+`
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${notoSerifSC.variable} antialiased`}>
-        <NextTopLoader color="#2299DD" showSpinner={false} />
+    <html lang="zh-CN" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeScript}
+        </Script>
+        <NextTopLoader color="#969691" showSpinner={false} shadow={false} />
         {children}
-        <Toaster />
       </body>
     </html>
-  );
+  )
 }

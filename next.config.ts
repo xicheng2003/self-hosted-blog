@@ -1,26 +1,15 @@
-import type { NextConfig } from "next";
-
-const isStandalone = process.env.STANDALONE === 'true';
-const isDev = process.env.NODE_ENV === 'development';
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  ...(isStandalone ? { output: 'standalone' } : {}),
+  output: process.env.STATIC_EXPORT === "true" ? "export" : undefined,
   images: {
-    ...(isDev ? { dangerouslyAllowLocalIP: true } : {}),
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: '64.112.40.12',
-        port: '9000',
-        pathname: '/blog-images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'oss.auradawn.cn',
-        pathname: '/**',
-      },
-    ],
+    unoptimized: process.env.STATIC_EXPORT === "true",
   },
-};
+  experimental: {
+    cpus: 1,
+    webpackBuildWorker: false,
+    workerThreads: false,
+  },
+}
 
-export default nextConfig;
+export default nextConfig
