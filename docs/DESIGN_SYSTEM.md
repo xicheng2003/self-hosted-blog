@@ -62,3 +62,5 @@
 ## 跨项目复用
 
 在最终合并 `home_page` 与博客时，只保留一份 `ExternalArrow`、`RssIcon`、`MenuIcon` 和对应 CSS。合并前如需调整路径、笔画或尺寸，应同时检查两个项目中的快速链接、文章列表、正文外链、RSS 入口与移动导航。
+
+页面外壳使用 grid 时，必须显式设置 `min-width: 0` 与 `grid-template-columns: minmax(0, 1fr)`；作为直接 grid item 的导航、内容区和页脚也必须允许收缩。移动端文章标题使用 `overflow-wrap: anywhere` 作为长英文、数字及连续字符的断行兜底，不能让页脚备案、文章横行或长标题的最小内容宽度反向撑大整个页面。
