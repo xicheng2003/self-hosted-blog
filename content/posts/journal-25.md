@@ -53,24 +53,25 @@ draft: true
 
 下面是十一月的书影音记录：
 
-> \[!MOVIE\] 长安的荔枝\
-> Author: 大鹏\
-> Cover: <http://oss.auradawn.cn/blog-images/0f03edc9-6c18-414d-9c9a-ee6846b78a19-p2923330987.webp>\
+> [!MOVIE] 长安的荔枝\
+> Author: [中] 大鹏\
+> Cover: /images/posts/journal-25/p2923383672.jpg\
 > Rating: 3\
 > Status: 看完\
 > Comment: 电影的表达效果还是可以的，活脱脱的苦命打工人故事。比较生动形象，但是相对于原著来说电影的时长还是太紧凑了，看下来节奏还是太快了，跟我读原著的时候那种历经艰辛百难，考虑周全细致那种感觉不同，反而是节奏快速时间紧迫，更加凸显了现代人的精神状态（。这也是这部电影有意表达的主题，期望与当代年轻人共鸣，非常现实，感觉是年会不能停的历史版本。反过来，原著则更有历史上的厚重感，虽然故事是虚构的，很多细节禁不起推敲，但是原著更有那个历史时期的沉浸感，也没有这么多段子植入。还是更喜欢原著。电影还是太娱乐化了，严肃艺术作品日渐式微也是现在的趋势
 
-> \[!MOVIE\] 春光乍泄\
-> Author: 王家卫\
-> Cover: <http://oss.auradawn.cn/blog-images/e39a9ab3-5c62-40df-8e7c-4b2a4ee2ba2b-p465939041.webp>\
+> [!MOVIE] 春光乍泄\
+> Author: [中国香港] 王家卫\
+> Cover: /images/posts/journal-25/p465939041.jpg\
 > Rating: 4\
-> Status: 看完
+> Status: 看完\
+> Comment:
 
-> \[!BOOK\] 当我在谈跑步时，我在谈些什么\
-> Cover: <http://oss.auradawn.cn/blog-images/ce657f85-f2a2-44d5-8ab7-9d60da02f24c-s34983492.jpg>\
+> [!BOOK] 当我谈跑步时，我谈些什么\
+> Author: [日] 村上春树\
+> Cover: /images/posts/journal-25/s34983492.jpg\
 > Rating: 4.2\
 > Status: 在读\
-> Author: \[日\] 村上春树\
 > Comment:
 
 ---

@@ -90,17 +90,17 @@ OneRepublic: The Artificial Paradise Tour
 
 ![](http://oss.auradawn.cn/blog-images/73ad1178-ef9e-4416-addf-c3ce3824cf51-IMG_0413.jpeg)
 
-# 书影音
+## 📔书影音
 
 时间管理能力不够，这个月没怎么抽出玩游戏。但是放假了用大段大段时间看剧看得很过瘾。
 
 下面是本月的书影音记录：
 
-> \[!TV\] 三大队 \
-> Author: 邢键钧 \
-> Cover: <http://oss.auradawn.cn/blog-images/70f21da1-9924-40d6-bdcf-94637a3b7eb8-p2902230708.webp>\
-> Rating: 4 \
-> Status: 看过 \
+> [!TV] 三大队\
+> Author: [中] 邢键钧\
+> Cover: /images/posts/journal-3/p2902230708.jpg\
+> Rating: 4\
+> Status: 看过\
 > Comment: 电影版和剧集都叫三大队，还是同一个时间宣发还是比较少见，开始还有点分不清原来是两个东西。
 >
 > 奔着漫长的季节演员阵容来看的，但说实话我觉得除了秦昊和陈明昊，其他演员没有特别出彩的地方。但是剧情最抓住我的就是男主面对各种挫折磨难独自面对的那种孤独感，看的我心在发麻，有时候最绝望的不是经历了多么大苦难，而是受过的委屈和苦楚无处可说，只能一个人默默承担，绝望过后寻找出口自我和解。从剧情来看，追凶之路更像是男主程兵的个人修行，除了执念之外，还有生活和朋友，他把孤独藏在心里，尽力平衡所有事情，对所有人负责，最后做到问心无愧，自我和解。
@@ -109,38 +109,38 @@ OneRepublic: The Artificial Paradise Tour
 >
 > 有些剧情生硬尴尬让人看得汗流浃背，但前面的细节做得很好，真的很还原90年代的时代背景：大哥大，传呼机，旧版纸币，清一色的桑塔纳警车，让人一下就回到那个年代。这些都让前面的铺垫很足，本来都想给5星了，但是看到后面，剧情剪切变换得有点乱，比较影响观感。
 
-> \[!MOVIE\] 怪物 \
-> Author: \[日\] 是枝裕和 \
-> Cover: <http://oss.auradawn.cn/blog-images/92dd60ff-c353-4219-8df9-fc6c6745f1f2-p2913062136.webp>\
-> Rating: 5 \
-> Status: 看过 \
+> [!MOVIE] 怪物\
+> Author: [日] 是枝裕和\
+> Cover: /images/posts/journal-3/p2913062136.jpg\
+> Rating: 5\
+> Status: 看过\
 > Comment: 一部很好的情景剧，多看点大师的作品，总能让我觉得看待电影的视角变得不一样。
 >
 > 不追求宏观叙事，没有视觉冲击，不追求炫酷特效，主打一个温柔细腻。 日系剧情风，喜欢看的会觉得很好看。结局很美好！
 
-> \[!BOOK\] 我与地坛 \
-> Author: \[中\] 史铁生 \
-> Cover: <http://oss.auradawn.cn/blog-images/110f0193-2c21-4638-8fe5-ab1111d88d3a-s4594868.jpg>\
-> Rating: 5 \
-> Status: 读完 \
+> [!BOOK] 我与地坛\
+> Author: [中] 史铁生\
+> Cover: /images/posts/journal-3/s35435848.jpg\
+> Rating: 5\
+> Status: 读完\
 > Comment: 前段时间，朋友说这本书看得心情很悲，但坦白的讲，如果感到悲伤我觉得是因为了解了作者的经历和处境而心生同情和怜悯，很难不说这是一种先入为主。我觉得把悲换成沉重更贴切。
 >
 > 细读其实能发现作者体验到的是生命的苦难，表达出的却是存在的明朗和欢乐。用史铁生的话来说是“向死而生”。从患病的绝望到人生意义的思考，再到轮椅上写作的目的。一步步走来，写尽的是人生脉络与悲欢离合。
 >
 > 这本书收录的选文其实有点繁琐，对我来说还是有点难读，所以中间好几次想放弃。但这本书会决定多读几遍，毕竟好书常读常新。
 
-> \[!TV\] 繁花 \
-> Author: \[中国香港\] 王家卫 \
-> Cover: <http://oss.auradawn.cn/blog-images/259ba319-381b-407e-8fbb-8d22d9766423-p2902705337.webp>\
-> Rating: 5 \
-> Status: 在看 \
+> [!TV] 繁花\
+> Author: [中国香港] 王家卫\
+> Cover: /images/posts/journal-3/p2902705337.jpg\
+> Rating: 5\
+> Status: 在看\
 > Comment:
 
-> \[!MOVIE\] 萨特本 \
-> Author: \[英\] 埃默拉尔德·芬内尔 \
-> Cover: <http://oss.auradawn.cn/blog-images/df2a931e-292c-4128-b162-d476531f08de-p2900961069.webp>\
-> Rating: 4 \
-> Status: 看过 \
+> [!MOVIE] 萨特本\
+> Author: [英] 埃默拉尔德·芬内尔\
+> Cover: /images/posts/journal-3/p2900961069.jpg\
+> Rating: 4\
+> Status: 看过\
 > Comment: 一部慎看的电影，黑暗、扭曲、变态，但又非常吸引人。
 >
 > 我阅片不多，但是我敢说男主算得上是最变态也最复杂的人物，里面有很多镜头真的震碎三观，太刺激了。开始看前面还以为是什么烂俗的BL故事，结果给我个反转，让我感觉观感变得不错。

@@ -96,24 +96,25 @@ draft: true
 
 下面是十月的书影音记录：
 
-> \[!MOVIE\] 爱在破晓黎明前\
-> Author: \[美\] 理查德 · 林克莱特\
-> Cover: <http://oss.auradawn.cn/blog-images/befc0030-51b0-4209-b8cd-8f9625e3b71e-p2555762374.webp>\
+> [!MOVIE] 爱在黎明破晓前\
+> Author: [美] 理查德·林克莱特\
+> Cover: /images/posts/journal-24/p2555762374.jpg\
 > Rating: 5\
 > Status: 看完\
 > Comment: 全片都是两个人在聊天，从头到尾，我不觉得无聊，反而挺有趣的！是一整个浪漫自由的风格，很美。
 
-> \[!MOVIE\] 春光乍泄\
-> Author: 王家卫\
-> Cover: <http://oss.auradawn.cn/blog-images/e39a9ab3-5c62-40df-8e7c-4b2a4ee2ba2b-p465939041.webp>\
+> [!MOVIE] 春光乍泄\
+> Author: [中国香港] 王家卫\
+> Cover: /images/posts/journal-24/p465939041.jpg\
 > Rating: 4\
-> Status: 看完
+> Status: 看完\
+> Comment:
 
-> \[!BOOK\] 当我在谈跑步时，我在谈些什么\
-> Cover: <http://oss.auradawn.cn/blog-images/ce657f85-f2a2-44d5-8ab7-9d60da02f24c-s34983492.jpg>\
+> [!BOOK] 当我谈跑步时，我谈些什么\
+> Author: [日] 村上春树\
+> Cover: /images/posts/journal-24/s34983492.jpg\
 > Rating: 4.2\
 > Status: 在读\
-> Author: \[日\] 村上春树\
 > Comment:
 
 *下月见。*

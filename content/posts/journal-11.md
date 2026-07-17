@@ -97,29 +97,43 @@ draft: false
 
 下面是九月的书影音记录：
 
-**看完：电影 | 邱炯炯《椒麻堂会》| ★★★★☆**
+> [!MOVIE] 椒麻堂会\
+> Author: [中] 邱炯炯\
+> Cover: /images/posts/journal-11/MV5BMTg3Y2JjZmItMThjNi00NTQxLTkxOTAtOTVjNzExMGM1ZTVlXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment:
 
-**看完：电影 | 昆汀 · 塔伦蒂诺《低俗小说》| ★★★★☆**
+> [!MOVIE] 低俗小说\
+> Author: [美] 昆汀·塔伦蒂诺\
+> Cover: /images/posts/journal-11/MV5BYTViYTE3ZGQtNDBlMC00ZTAyLTkyODMtZGRiZDg0MjA2YThkXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment: 第一次看昆汀的作品，真的被震撼到了！这个叙事结构
 
-第一次看昆汀的作品，真的被震撼到了！这个叙事结构
+> [!MOVIE] 完美的日子\
+> Author: [德] 维姆·文德斯\
+> Cover: /images/posts/journal-11/MV5BNGVmODFkM2MtOTEzMy00MjFjLThjZmYtODMxZmI1MzcyNDkyXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment: 有点看不懂了，开始的一大部份感觉很像重启人生？
+>
+> 其实我看得很沉重，有一种很强的孤独感。但如果将自己代入，一个人这样生活自得其乐，好像也挺好的，从自己看来只是孤单却并不孤独。但是以第三视角来看，在其他人来看好像挺孤独的。
+>
+> 但是看着男主角其实感觉到一种很强的孤独感。但是能享受其中令人佩服。
 
-**看完：电影 | 维姆 · 文德斯《完美的日子》| ★★★★☆**
-
-有点看不懂了，开始的一大部份感觉很像重启人生？
-
-其实我看得很沉重，有一种很强的孤独感。但如果将自己代入，一个人这样生活自得其乐，好像也挺好的，从自己看来只是孤单却并不孤独。但是以第三视角来看，在其他人来看好像挺孤独的。
-
-但是看着男主角其实感觉到一种很强的孤独感。但是能享受其中令人佩服。
-
-**看完：电影 | 简君晋《白日之下》| ★★★★☆**
-
-长大才发现，善良和正义不是要表现出来的，在现实世界里，这两个看起来美好的词语屁用都没有。唯一的用处大概是，心中坚守着两个词语背后的信念，完成自洽去抵抗世界周遭的险恶。
-
-个人来说电影的观感不是很好，看下去完全是因为题材。
-
-提出问题抛给社会，又能留下多久呢（哪怕两天？）
-
-面对这个世界，也许只能像通伯一样装疯卖傻，实现自洽是唯一的慰藉。
+> [!MOVIE] 白日之下\
+> Author: [中国香港] 简君晋\
+> Cover: /images/posts/journal-11/MV5BMWI3YjEzOTgtYWYxNy00OTU1LWFkOTEtYTczNzA1M2ZmNjdlXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment: 长大才发现，善良和正义不是要表现出来的，在现实世界里，这两个看起来美好的词语屁用都没有。唯一的用处大概是，心中坚守着两个词语背后的信念，完成自洽去抵抗世界周遭的险恶。
+>
+> 个人来说电影的观感不是很好，看下去完全是因为题材。
+>
+> 提出问题抛给社会，又能留下多久呢（哪怕两天？）
+>
+> 面对这个世界，也许只能像通伯一样装疯卖傻，实现自洽是唯一的慰藉。
 
 ---
 

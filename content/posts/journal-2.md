@@ -117,15 +117,15 @@ draft: true
 
 这款依旧是埃塞的豆子，下次想要试试别的产区的豆子了。这次买的浅烘豆子，花香柑橘调性足，配点小甜点当下午茶简直享受。
 
-# 书影音
+## 📔书影音
 
 本月的书影音记录如下：
 
-> \[!MOVIE\] 惊天营救 \
-> Author: \[美\] 山姆·哈格雷夫 \
-> Cover: <http://oss.auradawn.cn/blog-images/95bd3ed4-274e-49b3-9a1d-4c541d254526-p2594557845.webp>\
-> Rating: 5 \
-> Status: 看过 \
+> [!MOVIE] 惊天营救\
+> Author: [美] 山姆·哈格雷夫\
+> Cover: /images/posts/journal-2/p2594557845.jpg\
+> Rating: 5\
+> Status: 看过\
 > Comment: 看完整部剧，我对两个主角的印象很深。可能是他们身上不同寻常的经历罢，他们都是深情重义的人。这些恰好很能触动我。说到底是老毛病犯了，我总会带着悲悯的目光去瞭望那些有故事的人，企图从他们身上折射回来的光芒看见自己的影子。越是这样思考越是能了解自己的这种心态。
 >
 > 一方面自己想成为剧中泰勒一样高尚善良的人，另一方面又有在男孩身上看到自己的影子，仿佛将自己代入。这两个矛盾又背道而驰的想法，或许是我原本的样子和我想要成为的样子。
@@ -134,34 +134,34 @@ draft: true
 >
 > 但是我在追求勇敢的路上，也有过质疑，我追求的美好和善良，是真正的善吗？还是说是为了满足自己的伪善呢？有时候我真的会陷入自我怀疑。 不管怎么说，我会按照自己内心往前走的。 “掉进河里不会淹死，而试图沉没在河里则会。”
 
-> \[!MOVIE\] 惊天营救2 \
-> Author: \[美\] 山姆·哈格雷夫 \
-> Cover: <http://oss.auradawn.cn/blog-images/a8d4f7b7-f87f-4cae-a46c-80902aca4cfa-p2892063382.webp>\
-> Rating: 4 \
-> Status: 看过 \
+> [!MOVIE] 惊天营救2\
+> Author: [美] 山姆·哈格雷夫\
+> Cover: /images/posts/journal-2/p2892063382.jpg\
+> Rating: 4\
+> Status: 看过\
 > Comment: 一部爽剧。但剧情没什么看点。 我觉得剧情的风格节奏都还是维持在和第一部差不多的水准，不会让人觉得偏差太多。可惜就可惜在剧情不够吸引人，剧情有点简单老套，流畅丝滑，越看越像游戏剧情。看到片尾报幕说是改编自图画小说《Ciudad》，开始让我好奇原著的剧情到底是怎样的。
 >
 > 前面普通的剧情让我感觉少许枯燥，略有抓耳挠腮。到后面的动作戏才开始吸引我。 男主泰勒依旧实力在线，动作打斗比第一部更出彩，特别是长镜头特别出彩。在狱中穿过庭院广场的打斗和追车逃亡的一镜到底，让人印象深刻。
 
-> \[!BOOK\] 我与地坛 \
-> Author: \[中\] 史铁生 \
-> Cover: <http://oss.auradawn.cn/blog-images/110f0193-2c21-4638-8fe5-ab1111d88d3a-s4594868.jpg>\
-> Rating: 5 \
-> Status: 在看 \
+> [!BOOK] 我与地坛\
+> Author: [中] 史铁生\
+> Cover: /images/posts/journal-2/s35435848.jpg\
+> Rating: 5\
+> Status: 在读\
 > Comment: 还是没看完，真的要拖到明年了。
 
-> \[!BOOK\] 斯通纳 \
-> Author: \[美\] 约翰·威廉斯 \
-> Cover: <http://oss.auradawn.cn/blog-images/9ef2c6a8-9d4f-4961-b026-37f4548a977c-s28332051.jpg>\
+> [!BOOK] 斯通纳\
+> Author: [美] 约翰·威廉斯\
+> Cover: /images/posts/journal-2/s28332051.jpg\
 > Rating: 5\
-> Status: 在看 \
+> Status: 在读\
 > Comment: 被这本书的介绍吸引了，虽然到年末了还是开始读了起来，看来这本书必定是要拖到第二年才能看完了。
 
-> \[!GAME\] GTA V \
-> Author: Rockstar Games \
-> Cover: <http://oss.auradawn.cn/blog-images/3a917ec2-ac05-4af2-af61-27b03210c0f0-Grand_Theft_Auto_V.png>\
-> Rating: 5 \
-> Status: 在玩 \
+> [!GAME] GTA V\
+> Author: [美] Rockstar Games\
+> Cover: /images/posts/journal-2/MV5BOGI2Yjk1ZTEtZTA2Yy00ZjQ3LTk4MTgtYTgyMGQ1Zjk3YjgzXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating: 5\
+> Status: 在玩\
 > Comment: 实际上我也很意外我会买这款游戏来玩，因为我着实发现我对游戏不是很有兴趣。但突然想玩了，索性就不想犹豫，直接买了。GTA是我小学沉迷过的游戏，想起来之前玩的圣安地列斯，真的是玩通关关了还是颇有兴趣继续在玩，毕竟对于一个小男孩来说，这个游戏的玩法实在很丰富，它几乎拥有每个男孩热爱的所有元素。
 >
 > 买它或许是潜意识里为它补了一个票，致敬回不去的那年夏天。

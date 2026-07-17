@@ -143,19 +143,42 @@ draft: false
 
 下面是六月的书影音记录：
 
-**看完：电影/音乐 | 纪录片《坂本龙一：杰作》**
+> [!MOVIE] 坂本龙一：杰作\
+> Author: [日] 空音央\
+> Cover: /images/posts/journal-8/MV5BN2I2OGQyYTMtOTc1Zi00YjljLTlhZDUtOGI5ZThjYWJhYTYxXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating:\
+> Status: 看完\
+> Comment:
 
-**看完：电影 | 吴炜伦《毒舌律师》**
+> [!MOVIE] 毒舌律师\
+> Author: [中国香港] 吴炜伦\
+> Cover: /images/posts/journal-8/MV5BYjg0MDIzMjYtMTMzNy00MmY2LWJjMzYtMmE4ODM2MTUzOWJkXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating:\
+> Status: 看完\
+> Comment:
 
-**看完：剧集 | 巴瑞·莱文森《成瘾剂量》**
+> [!TV] 成瘾剂量\
+> Author: [美] 巴瑞·莱文森\
+> Cover: /images/posts/journal-8/MV5BYmM0ZGFkZTctZjg2Ny00YmFhLThhNmItZjRjODk4ZGJhNWY3XkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating:\
+> Status: 看完\
+> Comment: 为了创造一种神药，控制了社会舆论，让专家用理论背书，让机构伪证权威，最后假的也能变成真的。让我感慨的不是各方势力的勾结与腐败，而是从中看到的各种宣传机器更加让人深思。真真假假，假假真真。有时候真的感慨，这个世界就是这样的。
+>
+> BTW，Finnix医生是个善良的人，但是也被利用了，卷入这一场漩涡。往大了说，有时候我又会想到一句话，我们每个个体都可能是被历史或时代所绑架的人质。
 
-为了创造一种神药，控制了社会舆论，让专家用理论背书，让机构伪证权威，最后假的也能变成真的。让我感慨的不是各方势力的勾结与腐败，而是从中看到的各种宣传机器更加让人深思。真真假假，假假真真。有时候真的感慨，这个世界就是这样的。
+> [!MOVIE] 老狐狸\
+> Author: [中国台湾] 萧雅全\
+> Cover: /images/posts/journal-8/MV5BN2YxYWFmNzEtZGYwMC00MWEyLThiYjgtNTQwNzg5MjczNTQwXkEyXkFqcGc-.V1QL75UX600.jpg\
+> Rating:\
+> Status: 看完\
+> Comment:
 
-BTW，Finnix医生是个善良的人，但是也被利用了，卷入这一场漩涡。往大了说，有时候我又会想到一句话，我们每个个体都可能是被历史或时代所绑架的人质。
-
-**看完：电影 | 萧雅全《老狐狸》**
-
-**在读：书籍 | 王小波《黄金时代》**
+> [!BOOK] 黄金时代\
+> Author: [中] 王小波\
+> Cover: /images/posts/journal-8/s35402390.jpg\
+> Rating:\
+> Status: 在读\
+> Comment:
 
 ---
 

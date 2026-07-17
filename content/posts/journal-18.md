@@ -130,17 +130,47 @@ draft: false
 
 下面是四月的书影音记录：
 
-**看完：电影 | \[港\] 陈茂贤《破 · 地狱》| ★★★★☆**
+> [!MOVIE] 破·地狱\
+> Author: [中国香港] 陈茂贤\
+> Cover: /images/posts/journal-18/p2915837972.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment:
 
-**看完：剧集 | \[美\] 马特·达菲《怪奇物语 第四季》| ★★★★★**
+> [!TV] 怪奇物语 第四季\
+> Author: [美] 马特·达菲 / 罗斯·达菲\
+> Cover: /images/posts/journal-18/p2873896406.jpg\
+> Rating: 5\
+> Status: 看完\
+> Comment:
 
-**看完：电影 | \[美\] 克里斯·哥伦布《小鬼当家》| ★★★★☆**
+> [!MOVIE] 小鬼当家\
+> Author: [美] 克里斯·哥伦布\
+> Cover: /images/posts/journal-18/p1529668801.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment:
 
-**在看：剧集 | \[美\] 保罗·艾柏特《无耻之徒 第二季》**
+> [!TV] 无耻之徒 第二季\
+> Author: [英] 保罗·艾柏特\
+> Cover: /images/posts/journal-18/p2286620815.jpg\
+> Rating:\
+> Status: 在看\
+> Comment:
 
-**在读：书籍 | \[美 \]鲁思·本尼迪克特《菊与刀》**
+> [!BOOK] 菊与刀\
+> Author: [美] 鲁思·本尼迪克特\
+> Cover: /images/posts/journal-18/s9140593.jpg\
+> Rating:\
+> Status: 在读\
+> Comment:
 
-**在读：书籍 | \[法\] 安德烈·纪德《窄门》**
+> [!BOOK] 窄门\
+> Author: [法] 安德烈·纪德\
+> Cover: /images/posts/journal-18/s29915013.jpg\
+> Rating:\
+> Status: 在读\
+> Comment:
 
 ---
 

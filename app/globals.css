@@ -1345,6 +1345,7 @@
   color: var(--text-secondary);
   font-size: var(--font-size-body-small);
   line-height: 1.75;
+  white-space: pre-line;
 }
 
 .article-tags {

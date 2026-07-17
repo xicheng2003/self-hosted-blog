@@ -132,17 +132,40 @@ draft: false
 
 下面是六月的书影音记录：
 
-**看完：电影 |  胡波《大象席地而坐》| ★★★★★**
+> [!MOVIE] 大象席地而坐\
+> Author: [中] 胡波\
+> Cover: /images/posts/journal-20/p2511811355.jpg\
+> Rating: 5\
+> Status: 看完\
+> Comment:
 
-**看完：剧集 | 徐兵《在人间》| ★★★★☆**
+> [!TV] 在人间\
+> Author: [中] 徐兵\
+> Cover: /images/posts/journal-20/p2920729049.jpg\
+> Rating: 4\
+> Status: 看完\
+> Comment: 这个剧本形式很新颖，感觉对于中国大陆来说比较有创新性吧，但是我感觉还是比较偏实验性的东西，观众的胃口还不一定能接受。
 
-这个剧本形式很新颖，感觉对于中国大陆来说比较有创新性吧，但是我感觉还是比较偏实验性的东西，观众的胃口还不一定能接受。
+> [!BOOK] 邓小平时代\
+> Author: [美] 傅高义\
+> Cover: /images/posts/journal-20/s24516687.jpg\
+> Rating:\
+> Status: 在读\
+> Comment:
 
-**在读：书籍 | \[美\] 傅高义《邓小平时代》**
+> [!TV] 最后生还者 第二季\
+> Author: [美] 克雷格·麦辛\
+> Cover: /images/posts/journal-20/p2919586166.jpg\
+> Rating:\
+> Status: 在看\
+> Comment:
 
-**在看：剧集 | \[美\] 克雷格·麦辛《最后生还者 第二季》**
-
-**在读：书籍 | \[美\] 保罗·格雷厄姆《黑客与画家》**
+> [!BOOK] 黑客与画家\
+> Author: [美] 保罗·格雷厄姆\
+> Cover: /images/posts/journal-20/s34213769.jpg\
+> Rating:\
+> Status: 在读\
+> Comment:
 
 ---
 
