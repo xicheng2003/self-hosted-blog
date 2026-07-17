@@ -13,8 +13,6 @@ cover: /images/posts/journal-14/cover.jpeg
 featured: false
 draft: false
 ---
-# **月刊14期：年末的困顿与思考**
-
 > 🚶 本篇是对二〇二四年十二月生活的记录与思考。
 
 最近陷入一种困顿的境地。
@@ -58,7 +56,7 @@ draft: false
 
 ---
 
-## **💐十二月份。**
+## 💐十二月份。
 
 ### 好友来访
 
@@ -104,7 +102,7 @@ draft: false
 
 最后和KK在一个甜点店吃了点东西，一起看了会星星的跨年演唱会。
 
-## **✏有趣的事与物**
+## ✏有趣的事与物
 
 ### 一些视频
 
@@ -118,21 +116,21 @@ draft: false
 
 ### 一些播客
 
-[忽左忽右](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000679046206)[** 366 珈琲之国：日式咖啡文化是如何形成的？**](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000679046206)
+[忽左忽右 · 366 珈琲之国：日式咖啡文化是如何形成的？](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000679046206)
 
-[忽左忽右 ](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000676627067)[**361 陶然谈「城中村改造」与「城市更新」新模式**](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000676627067)
+[忽左忽右 · 361 陶然谈「城中村改造」与「城市更新」新模式](https://podcasts.apple.com/cn/podcast/忽左忽右/id1493503146?i=1000676627067)
 
-[迷影派 ](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000672480452)[**心灵奇旅 | 《卧虎藏龙》 ：情欲的执念与自由的尽头【迷影派159】**](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000672480452)
+[迷影派 · 心灵奇旅 | 《卧虎藏龙》：情欲的执念与自由的尽头【迷影派159】](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000672480452)
 
-[迷影派 ](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000660043408)[**迷影旅行家 | 《怪物》 ：尽管如此，也要活下去【迷影派157】**](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000660043408)
+[迷影派 · 迷影旅行家 | 《怪物》：尽管如此，也要活下去【迷影派157】](https://podcasts.apple.com/cn/podcast/迷影派/id1583695914?i=1000660043408)
 
-[知行小酒馆](https://podcasts.apple.com/cn/podcast/%E7%9F%A5%E8%A1%8C%E5%B0%8F%E9%85%92%E9%A6%86/id1559695855?i=1000677075941)[** E165 对话半佛仙人：搞懂这八个字，人生，易如反掌🤚🏻**](https://podcasts.apple.com/cn/podcast/%E7%9F%A5%E8%A1%8C%E5%B0%8F%E9%85%92%E9%A6%86/id1559695855?i=1000677075941)
+[知行小酒馆 · E165 对话半佛仙人：搞懂这八个字，人生，易如反掌🤚🏻](https://podcasts.apple.com/cn/podcast/%E7%9F%A5%E8%A1%8C%E5%B0%8F%E9%85%92%E9%A6%86/id1559695855?i=1000677075941)
 
-[天真不天真](https://podcasts.apple.com/cn/podcast/%E5%A4%A9%E7%9C%9F%E4%B8%8D%E5%A4%A9%E7%9C%9F/id1731784296?i=1000678226149)[** vol.16 对谈黄执中：怎么成为一个会说话的人？**](https://podcasts.apple.com/cn/podcast/%E5%A4%A9%E7%9C%9F%E4%B8%8D%E5%A4%A9%E7%9C%9F/id1731784296?i=1000678226149)
+[天真不天真 · vol.16 对谈黄执中：怎么成为一个会说话的人？](https://podcasts.apple.com/cn/podcast/%E5%A4%A9%E7%9C%9F%E4%B8%8D%E5%A4%A9%E7%9C%9F/id1731784296?i=1000678226149)
 
-[无人知晓 ](https://podcasts.apple.com/cn/podcast/%E6%97%A0%E4%BA%BA%E7%9F%A5%E6%99%93/id1581271335?i=1000679070008)[**E38 孟岩对话陈行甲：他们落水了，水很凉**](https://podcasts.apple.com/cn/podcast/%E6%97%A0%E4%BA%BA%E7%9F%A5%E6%99%93/id1581271335?i=1000679070008)
+[无人知晓 · E38 孟岩对话陈行甲：他们落水了，水很凉](https://podcasts.apple.com/cn/podcast/%E6%97%A0%E4%BA%BA%E7%9F%A5%E6%99%93/id1581271335?i=1000679070008)
 
-[忽左忽右 ](https://open.spotify.com/episode/4DPozWDus4GOICFqnsFPtw?si=ySAqCOnnRJOk-yBE6l1EOw&nd=1&dlsi=352d7c3ba8174d05)[**333 改造西湖：杭州的营建、除虫与迁坟**](https://open.spotify.com/episode/4DPozWDus4GOICFqnsFPtw?si=ySAqCOnnRJOk-yBE6l1EOw&nd=1&dlsi=352d7c3ba8174d05)
+[忽左忽右 · 333 改造西湖：杭州的营建、除虫与迁坟](https://open.spotify.com/episode/4DPozWDus4GOICFqnsFPtw?si=ySAqCOnnRJOk-yBE6l1EOw&nd=1&dlsi=352d7c3ba8174d05)
 
 ## 📔书影音
 

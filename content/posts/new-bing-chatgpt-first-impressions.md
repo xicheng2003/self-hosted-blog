@@ -14,7 +14,7 @@ cover: /images/posts/new-bing-chatgpt-first-impressions/cover.jpeg
 featured: true
 draft: false
 ---
-> 💡 请注意，这是一篇已经创建超过** 365天** 的文章，其中的信息可能已经有所发展或是发生改变。
+> 💡 请注意，这是一篇已经创建超过 **365天** 的文章，其中的信息可能已经有所发展或是发生改变。
 
 ## 写在前面
 
@@ -107,8 +107,6 @@ New Bing的功能实际上和Chat GPT的功能差不多，从简单的知识问�
 [本文作者New Bing](https://www.morlight.top/%E6%9C%AC%E6%96%87%E4%BD%9C%E8%80%85new-bing)
 
 > GPT的浪潮难以抵挡，我尝试让它来写一篇关于经济学的论文，结果依旧让我意外。
-
-[‣](/posts/article-written-by-new-bing) 
 
 整一个操作下来，我认为它论文写得好不好，很大程度上还取决于你是否能清晰地将你的想法向它表达出来。
 

@@ -13,8 +13,6 @@ cover: /images/posts/journal-20/cover.png
 featured: false
 draft: false
 ---
-# **月刊20期：把代码写进六月，把打印机搬进宿舍**
-
 > 🚶 本篇是对二〇二五年六月生活的记录与思考。
 
 本月摘要：
@@ -26,7 +24,7 @@ draft: false
 
 ---
 
-## **💐六月份。**
+## 💐六月份。
 
 ### 我的第一张Visa信用卡
 
@@ -106,7 +104,7 @@ draft: false
 
 > 此分支包含用于通过Modbus协议对博创工业机器人进行二次开发的Python和Web应用程序代码。项目旨在实现基于文本指令的机器人轨迹运动控制。 - xicheng2003/text-based-robot-trajectory-control
 
-## **✏有趣的事与物**
+## ✏有趣的事与物
 
 ### 一些视频
 
@@ -114,19 +112,19 @@ draft: false
 
 [**小凡今天出片了吗 关于抽象话的深度研究：为什么我们无法在网上好好说话？**](https://www.bilibili.com/video/BV1Vd4y1b71B)
 
-[陀思妥利卡啦啦 ](https://www.bilibili.com/video/BV15u5TzhEWm/)[**“语言的边界就是你思想的边界” “那咋了”**](https://www.bilibili.com/video/BV15u5TzhEWm/)
+[陀思妥利卡啦啦 · “语言的边界就是你思想的边界” “那咋了”](https://www.bilibili.com/video/BV15u5TzhEWm/)
 
 ### 一些播客
 
 [**西西弗高速 14.论“爆料”的格式：从聊天记录、PDF到PPT | Newsletter**](https://podcasts.apple.com/cn/podcast/14-%E8%AE%BA-%E7%88%86%E6%96%99-%E7%9A%84%E6%A0%BC%E5%BC%8F-%E4%BB%8E%E8%81%8A%E5%A4%A9%E8%AE%B0%E5%BD%95-pdf%E5%88%B0ppt-newsletter/id1770713549?i=1000709917900)
 
-[无人知晓 ](https://podcasts.apple.com/cn/podcast/e36-%E5%AD%9F%E5%B2%A9%E5%AF%B9%E8%AF%9D%E5%91%A8%E5%A5%87%E5%A2%A8-%E5%9C%A8%E9%AB%98%E5%A4%84%E5%81%9A%E7%A9%BA%E8%87%AA%E5%B7%B1/id1581271335?i=1000658607146)[**E36 孟岩对话周奇墨：在高处做空自己**](https://podcasts.apple.com/cn/podcast/e36-%E5%AD%9F%E5%B2%A9%E5%AF%B9%E8%AF%9D%E5%91%A8%E5%A5%87%E5%A2%A8-%E5%9C%A8%E9%AB%98%E5%A4%84%E5%81%9A%E7%A9%BA%E8%87%AA%E5%B7%B1/id1581271335?i=1000658607146)
+[无人知晓 · E36 孟岩对话周奇墨：在高处做空自己](https://podcasts.apple.com/cn/podcast/e36-%E5%AD%9F%E5%B2%A9%E5%AF%B9%E8%AF%9D%E5%91%A8%E5%A5%87%E5%A2%A8-%E5%9C%A8%E9%AB%98%E5%A4%84%E5%81%9A%E7%A9%BA%E8%87%AA%E5%B7%B1/id1581271335?i=1000658607146)
 
 [**声东击西 #340 当 AI 能秒回答案，我们可以为青少年提供何种不一样的成长养料**](https://www.xiaoyuzhoufm.com/episode/67e5256eeea6a92d7db01217)
 
-[不把天聊si ](https://www.xiaoyuzhoufm.com/episode/611f84d8dc0c485d9a0c9edb)[**Vol.8｜一个怎样的周末，才算是真正的休息？**](https://www.xiaoyuzhoufm.com/episode/611f84d8dc0c485d9a0c9edb)
+[不把天聊si · Vol.8｜一个怎样的周末，才算是真正的休息？](https://www.xiaoyuzhoufm.com/episode/611f84d8dc0c485d9a0c9edb)
 
-[声东击西 ](https://www.xiaoyuzhoufm.com/episode/67726f7d7317752df18750ad)[**#「局外人」总统吉米·卡特：「失意」政治家何以启示当下的世界 | 重播**](https://www.xiaoyuzhoufm.com/episode/67726f7d7317752df18750ad)
+[声东击西 · #「局外人」总统吉米·卡特：「失意」政治家何以启示当下的世界 | 重播](https://www.xiaoyuzhoufm.com/episode/67726f7d7317752df18750ad)
 
 [**钱粮胡同FM 281.中国高铁发展史1-全球最强部委**](https://www.xiaoyuzhoufm.com/episode/6860156be5dce22914ba8590)
 
@@ -136,11 +134,11 @@ draft: false
 
 **看完：电影 |  胡波《大象席地而坐》| ★★★★★**
 
-**看完：剧集 | \[徐兵《在人间》| ★★★★☆**
+**看完：剧集 | 徐兵《在人间》| ★★★★☆**
 
 这个剧本形式很新颖，感觉对于中国大陆来说比较有创新性吧，但是我感觉还是比较偏实验性的东西，观众的胃口还不一定能接受。
 
-**在读：书籍 | \[美\]傅高义《邓小平时代》**
+**在读：书籍 | \[美\] 傅高义《邓小平时代》**
 
 **在看：剧集 | \[美\] 克雷格·麦辛《最后生还者 第二季》**
 

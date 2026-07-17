@@ -468,14 +468,41 @@ function rewriteLink(value, pageIdToSlug) {
   return slug ? `/posts/${slug}` : value
 }
 
+function splitEdgeWhitespace(value) {
+  const match = value.match(/^(\s*)([\s\S]*?)(\s*)$/)
+
+  return {
+    leading: match?.[1] ?? "",
+    core: match?.[2] ?? value,
+    trailing: match?.[3] ?? "",
+  }
+}
+
+function styledText(rawText, annotationTypes) {
+  if (annotationTypes.has("c")) return inlineCode(rawText)
+
+  const { leading, core, trailing } = splitEdgeWhitespace(rawText)
+  if (!core) return rawText
+
+  let rendered = markdownEscape(core)
+
+  if (annotationTypes.has("b")) rendered = `**${rendered}**`
+  if (annotationTypes.has("i")) rendered = `*${rendered}*`
+  if (annotationTypes.has("s")) rendered = `~~${rendered}~~`
+
+  return `${leading}${rendered}${trailing}`
+}
+
 function richTextToMarkdown(property, pageIdToSlug) {
   if (!Array.isArray(property)) return ""
 
-  return property
+  const pieces = property
     .map((segment) => {
       if (!Array.isArray(segment)) return ""
 
       const rawText = String(segment[0] ?? "")
+      if (rawText.trim() === "‣") return null
+
       const annotations = Array.isArray(segment[1]) ? segment[1] : []
       const annotationTypes = new Set(
         annotations
@@ -488,26 +515,37 @@ function richTextToMarkdown(property, pageIdToSlug) {
           (annotation[0] === "a" || annotation[0] === "p"),
       )
 
-      let rendered = annotationTypes.has("c")
-        ? inlineCode(rawText)
-        : markdownEscape(rawText)
-
-      if (annotationTypes.has("b")) rendered = `**${rendered}**`
-      if (annotationTypes.has("i")) rendered = `*${rendered}*`
-      if (annotationTypes.has("s")) rendered = `~~${rendered}~~`
-
-      if (linkAnnotation) {
-        const target =
-          linkAnnotation[0] === "p"
+      return {
+        content: styledText(rawText, annotationTypes),
+        target: linkAnnotation
+          ? linkAnnotation[0] === "p"
             ? `/posts/${pageIdToSlug.get(normalizedPageId(String(linkAnnotation[1]))) ?? ""}`
             : rewriteLink(String(linkAnnotation[1] ?? ""), pageIdToSlug)
+          : "",
+      }
+    })
+    .filter((piece) => piece && piece.content)
 
-        if (target && target !== "/posts/") {
-          rendered = `[${rendered}](${target})`
-        }
+  const grouped = []
+
+  for (const piece of pieces) {
+    const previous = grouped.at(-1)
+
+    if (piece.target && previous?.target === piece.target) {
+      previous.content += piece.content
+    } else {
+      grouped.push({ ...piece })
+    }
+  }
+
+  return grouped
+    .map(({ content, target }) => {
+      if (target && target !== "/posts/") {
+        const { leading, core, trailing } = splitEdgeWhitespace(content)
+        return core ? `${leading}[${core}](${target})${trailing}` : content
       }
 
-      return rendered
+      return content
     })
     .join("")
 }
@@ -713,10 +751,11 @@ async function renderPage({
         sub_header: "##",
         sub_sub_header: "###",
       }[type]
+      const heading = markdownEscape(plainText(block.properties?.title))
 
       return {
         type,
-        markdown: [`${level} ${title}`, children].filter(Boolean).join("\n\n"),
+        markdown: [`${level} ${heading}`, children].filter(Boolean).join("\n\n"),
       }
     }
 

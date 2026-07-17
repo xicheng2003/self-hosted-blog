@@ -16,9 +16,9 @@ draft: false
 ---
 > 💡 请注意，这是一篇已经创建超过 **365天** 的文章，其中的信息可能已经有所发展或是发生改变。
 
-> 🛠️ 此*篇文章主要是以体验分享为主，不是纯教程。简要提到Windows子系统的使用方法及安装软件的方法，希望对大家有所帮助！*
+> 🛠️ *此篇文章主要是以体验分享为主，不是纯教程。简要提到Windows子系统的使用方法及安装软件的方法，希望对大家有所帮助！*
 
-# 起因
+## 起因
 
 不能说我很喜欢音乐，但要是别人说我离不开音乐，我倒也不会否认。
 
@@ -28,7 +28,7 @@ draft: false
 
 大一上学期，2022秋天的某天，我看到新闻称苹果将在2023年推出Apple Music Windows版。看到新闻我就按耐不住了，虽然已经确定Apple会推出桌面版，但还是按耐不住心情，想在PC电脑上体验Apple Music。
 
-# 经过
+## 经过
 
 虽然在已有的iTunes上可以访问和使用Apple Music上的资源，但iTunes的体验感并不好（没有专辑动画，滚动歌词等），我还是想要探索其他方法，能不能体验Mac般完美的Apple Music体验。
 
@@ -36,9 +36,9 @@ draft: false
 
 在网络一番检索，发现又有一款名叫Cider的第三方软件，专门为了解决Apple Music还没有Windows版而开发的。我去微软商店下载，发现要RMB 19，作为没有收入的大学生，还是要发扬艰苦奋斗的精神，犹豫片刻后还是没有购买该软件。毕竟在PC上用Apple Music听音乐只能算是我在理想主义下的一点极客似的追求而已，也不是刚需，为此花钱好像就偏离了我最开始的目的。我还是想看看有没有其他办法，要是实在不行再购买此第三方软件。
 
-继续在网上 ~~冲浪 ~~检索，忽然发现看到Windows11上的安卓子系统，便有了在Windows11上安装安卓版Apple Music的思路。并且似乎是可行的，而且并不复杂。
+继续在网上 ~~冲浪~~ 检索，忽然发现看到Windows11上的安卓子系统，便有了在Windows11上安装安卓版Apple Music的思路。并且似乎是可行的，而且并不复杂。
 
-# **Windows 11 运行安卓子系统安装过程**
+## Windows 11 运行安卓子系统安装过程
 
 小时候为了玩手游，在PC上用过安卓模拟器。但这安卓子系统我可是第一次听，进一步了解得知这竟然是Windows11的特性之一，在发布Windows11时便作为Feature进行宣传，但由于它尚不稳定，并未出现在Windows11正式版。因此我继续冒险，将系统更新选项切换为预览版，接收Windows预览版推送并成功安装。这个安装过程还是要花费一点时间，毕竟是大版本更新。
 
@@ -63,7 +63,7 @@ draft: false
 - 确保微软商店版本为22110.1402.6.0或更高版本，并单击“获取更新”按钮升级其版本。
 - 安卓子系统默认会分配4G内存，建议16G内存以上的电脑使用。
 
-Windows预览版成功安装之后，在系统设置 → 应用 → 可选功能 → 更多 Windows 功能，找到并勾选开启**「Hyper-V」**和**「虚拟机平台」**两个选项，安装完成后会提示重启系统。
+Windows预览版成功安装之后，在系统设置 → 应用 → 可选功能 → 更多 Windows 功能，找到并勾选开启 **「Hyper-V」** 和 **「虚拟机平台」** 两个选项，安装完成后会提示重启系统。
 
 ![屏幕截图 2023-01-12 223748.png](/images/posts/install-apple-music-on-windows-subsystem-for-android/8d6eed81-屏幕截图-2023-01-12-223748.png)
 
@@ -75,7 +75,7 @@ Windows预览版成功安装之后，在系统设置 → 应用 → 可选功能
 
 实在不行就采用离线安装的方法。
 
-# **在Win11 安卓子系统安装 APK 软件包**
+## 在Win11 安卓子系统安装 APK 软件包
 
 系统安装完成之后就应该安装软件了。
 
@@ -122,7 +122,7 @@ adb install "D:\Downloads\Apple Music.apk"
 
 ![Untitled](/images/posts/install-apple-music-on-windows-subsystem-for-android/354dcc41-Untitled.jpg)
 
-# Win11成功安装Apple Music for Android 应用
+## Win11成功安装Apple Music for Android 应用
 
 至此，我成功安装上了Android版的Apple Music！
 
@@ -130,7 +130,7 @@ adb install "D:\Downloads\Apple Music.apk"
 
 ![Untitled](/images/posts/install-apple-music-on-windows-subsystem-for-android/7aa97d18-Untitled.png)
 
-# 总结
+## 总结
 
 经过折腾，总算是如愿安装Apple Music。
 
